@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<!--         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src *"> -->
+<!--         <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; connect-src *"> -->
+        
+        <meta charset="utf-8" />    
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, target-densitydpi=medium-dpi" />
+        
+        
+        <meta http-equiv="Content-Security-Policy" content="default-src *; script-src * 'unsafe-eval' 'unsafe-inline'; connect-src *; img-src *; style-src * 'unsafe-inline' ; media-src *;">
+
+		<title>EDIT</title>
+		
+        <link rel="stylesheet"  href="libs/jQueryMobile/jquery.mobile-1.4.5.min.css">
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+<!--         <link rel="stylesheet" href="libs/jqm-datebox-1.4.5.css" /> -->
+        <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css" />
+		
+        <script type="text/javascript" src="libs/fastclick.min.js"></script>
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="libs/jquery.min.js"></script>
+        <script type="text/javascript" src="libs/PushNotification.js"></script>
+        <script type="text/javascript" src="libs/jQueryMobile/jquery.mobile-1.4.5.min.js"></script>
+		<script src="libs/jqm-datebox-1.4.5.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+         <!-- jquery.ajax-cross-origin.min.js  -->
+        <script type="text/javascript" src="libs/jquery.ajax-cross-origin.min.js"></script>
+        <!-- Sparkline  -->
+	    <script type="text/javascript" src="libs/sparkline/jquery.sparkline.min.js" ></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </head>
+	<body>
+		
+        <div id="app">
+            
+			<div id="home-page" data-role="page">
+				<div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Home</h1>
+                </div>
+                
+				<div class="st-background">
+					<div data-role="content">
+						
+						<div id="student_homepage" class="home-dashboard display-none">
+							
+						</div>
+						
+						<div id="staff_homepage" class="home-dashboard display-none">
+							Staff homepage
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div  id="login-page" data-role="page" class="login-page">
+                <div data-role="content">
+					<div  class="login-box">
+						<div id="logoContainer" class="centerText">
+							<img src="img/logo.png" id="logo"  />
+								 <br/> <br/>
+						</div>
+												
+						<div class="form-container loginFormContainer" style="display: none;">
+							<form  id="loginForm" action="">
+								<div class="input-field">
+									<label for="username">Username</label>
+									<input type="text" name="username" id="username" placeholder="Username" maxlength="20" required />
+								</div>
+								<div class="input-field">
+									<label for="password">Password </label>
+									<input type="password" name="password" id="password" placeholder="Password" autocomplete="off" required />
+								</div>
+								<!-- <input type="submit" value="Login" id="submitButton" data-theme="a" /> -->
+								<input type="submit" value="Login" id="submitButton" data-theme="a" />
+								<!-- onclick="handleLogin();" -->
+							</form>
+						</div>	
+					</div>
+                </div>
+            </div>
+			
+			
+			<div id="chat-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                	<h1>Chat</h1>
+                </div>
+                <div data-role="content" class="more_content" >   
+					<section id="oneToOneChatSection" class="mb-student-communication mb-student-tab-content"  style="display:none;">
+						<input type="hidden" class="eventId" />
+						<ul class="chat">
+							
+							<li class="msg-in">
+								<span class="avatar"><span></span><img src="img/avatars/avatar-male.png" alt=""></span>
+								<div class="message">
+									<div class="msg-txt">
+										<span class="arrow"></span>
+										<p class="msg-body">No data</p>
+									</div>
+									<div class="msg-detail">
+										<span class="st-sender name"></span>
+										<span class="st-sender msg-date pull-right"><i class="fa fa-clock-o"></i></span>
+									</div>
+								</div>							
+							</li>
+						</ul>
+					</section>
+				</div>
+				
+				<div data-role="footer" data-position="fixed" class="msg-send-conatiner">
+					<div id="navbar" data-role="navbar">
+                        <ul>
+                            <li>
+                            	<div class="msg-send">
+									<textarea class="commentBox"></textarea>
+									<button type="button" class="btn btn-primary" onclick="addCommentDetails();">SEND</button>
+<!-- 									<a id="saveUpdateStudAttendanceBtn" href="#" onclick="saveUpdateStudAttendance();" data-icon="" data-theme="b" class="app-link active">Done</a> -->
+								</div>
+                            </li>
+                        </ul>
+                    </div>
+				</div>
+			</div>
+            
+            <div id="notification-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                	<h1>Notifications</h1>
+                </div>
+                <div data-role="content" class="more_content" >                	
+					<div class="page_content"> 
+						<ul class="features_list_detailed"></ul>
+					</div>
+	          	</div>					     
+            </div>
+          
+            <div id="user-profile-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+					<div class="ui-btn-left">
+						<!-- Back Button -->
+						<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-notext">Back</a>
+						&nbsp;
+						<!-- Menu Button -->
+						<a href="#leftPanel" class="ui-btn ui-corner-all ui-icon-bars ui-btn-icon-notext" title="Menu"></a>
+					</div>
+                    <h1>Profile</h1>
+					<a href="#rightPanel" class="ui-btn ui-corner-all ui-icon-gear ui-btn-icon-notext ui-btn-right"  title="Setting"> </a>
+                </div>
+                <div data-role="content" >                	
+					<div class="" >
+                		
+					</div>
+                </div>
+            </div>
+            
+            <div id="stan-students-list-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1></h1>
+                </div>
+                <div data-role="content" >   
+                	<div class="stan-div-students-details"> 
+    					<div class="page-tab-heading common-page-tab-heading bottom-border"></div>
+    					<div>
+							<ul class="user_list_detailed mb-student-attendance-list" id="markAttendanceUl" data-filter="true" data-filter-placeholder="Search.."></ul>
+						</div>	
+					</div>
+                </div>
+            </div>
+            
+            <div id="common-user-list-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1></h1>
+                </div>
+                <div data-role="content" >   
+                	<div class="common-user-list-details"> 
+    					<div class="page-tab-heading common-page-tab-heading bottom-border"></div>
+    					<div>
+							<ul class="user_list_detailed mb-student-attendance-list" id="" data-filter="true" data-filter-placeholder="Search.."></ul>
+						</div>	
+					</div>
+                </div>
+            </div>
+            
+            <div id="change-password-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Change Password</h1>
+                </div>
+                <div data-role="content" >                	
+					<div class="" >
+                		Change Password
+					</div>
+                </div>
+            </div>
+			
+			<div id="common-page" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1 class="common-page-heading"></h1>
+                </div>
+                
+                <div data-role="content" >
+                	<div id="commonTab1" class="common-page-tab1" >
+                			<div class="common-page-tab-heading bottom-border"></div>
+							
+							<div class="mb-st-assignment-list mb-assignment-tab-content" id="">
+								<ul class="st-assigment"></ul>
+							</div>	
+							
+						    <div class="table-main-div">
+						    	<ul class="st-assigment"></ul>
+								<!-- 
+								<div class="table-div">
+								    <div class="date-time-details">
+								        Date:<span class="">2015-10-13</span>
+								        <span class="pull-right">1:03 hrs</span>
+								    </div>
+								    <div class="general-details">
+								         <div class="ui-grid-a my-breakpoint">
+								             <div class="ui-block-a">
+								                <div class="name">Book Name 101: A Guide to Modern and Contemporary Indian Artists</div>
+								             </div>
+								            <div class="ui-block-b text-align-right">
+								               <span class="link-custom-spam">
+								                 <a href="#">View</a>
+								               </span>
+								            </div>
+								         </div>
+								         <div class="more-details-main ">
+								              <div class="text-align-right">
+								                  <a class="link" href="#" onclick="moreDetails(this);">Show Details</a>
+								              </div>
+								              <div style="display: none;" class="more-details moreDetailsDiv12">
+								                     <p class="other-details">Other: <span>Other Details.</span></p>
+								               </div>
+								          </div>
+								      </div>
+								  </div>         
+								      -->        
+ 							</div>
+					</div>
+                </div>
+            </div>
+			
+            <div id="data-entry" data-role="page">
+                <div data-role="header" data-id="header" id="header" data-position="fixed" class="ui-header app-header-section">
+                    <h1>Data Entry</h1>
+                </div>
+                
+                <div data-role="content" id="addLogTimeContent">
+                    <div>
+                    	<form id="dataEntryForm">
+		                    <div class="ui-field-contain">
+							    <label for="Date">Date </label>
+							    <input type="text" data-mini="true" data-role="datebox" id="logDate" name="logDate" readonly="readonly"
+							    	data-options='{"mode": "calbox", "overrideDateFormat": "%Y-%m-%d"}' >
+		                    </div>
+		                    
+		                     <div class="ui-field-contain time-input-div">	
+								<label for="Time">Time</label>
+		                    	<input type="text" data-mini="true" data-role="datebox" id="logTime" name="logTime" readonly="readonly"
+							    	data-options='{"mode": "durationflipbox","overrideDurationOrder":["h","i"] ,"overrideDurationFormat": " %Dl:%DM "}' >
+		                    </div>
+		                    
+		                    <div class="ui-field-contain">
+							    <label for="Comment">Comment </label>
+							    <textarea cols="" rows="4" name="logComment" id="logComment" style="width: 65% !important;"></textarea>
+		                    </div>     
+		                    
+		                    <div class="ui-field-contain">
+		                    	<label for="selectInput">selectInput </label>
+		                    	<select name="selectInput" id="selectInput" data-mini="true" >                    
+		                    		<option value="1">1</option>
+		                            <option value="2">2</option>
+		                            <option value="3">3</option>
+		                            <option value="4">4</option>
+		                        </select>
+		                    </div> 
+		                    
+		                    <div class="ui-grid-a">
+						      <div class="ui-block-a" ><input type="button" id="submitData" value="submit" /></div>
+						      <div class="ui-block-b" ><input type="button" id="nackBtn" value="Back" /></div>
+						    </div>
+						</form>	    
+                	</div>
+                	
+                </div>	
+				
+            </div>
+            
+        </div>
+		
+    </body>
+</html>

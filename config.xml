@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.stavyah.edit" 
+version="1.0.6"
+versionCode = "7" 
+xmlns="http://www.w3.org/ns/widgets" 
+xmlns:gap   = "http://phonegap.com/ns/1.0" 
+xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>EDIT IMS</name>
+    <description>
+        An application for EDIT Web App for Parents, Students and Teachers.
+    </description>
+    <author email="mangesh@stavyah.com" href="http://www.edit-ims.com">
+        Stavyah Technologies LLP
+    </author>
+    
+    <content src="index.html" />
+    
+    <feature name="http://api.phonegap.com/1.0/device" />
+    
+    <preference name="permissions" value="none"/>
+    <preference name="SplashScreen" value="screen" />
+	<preference name="SplashScreenDelay" value="3000" />
+	<preference name="FadeSplashScreen" value="false"/>
+    
+  	<gap:plugin name="org.apache.cordova.splashscreen"/>
+  	
+  	<plugin name="cordova-plugin-whitelist" spec="1.2.1" />
+	<plugin name="io.litehelpers.cordova.sqlite" source="pgb" spec="0.7.10" />
+	<plugin name="org.apache.cordova.dialogs" source="pgb" spec="0.3.0" />
+	<plugin name="org.apache.cordova.network-information" source="pgb" spec="0.2.15" />
+	<plugin name="org.apache.cordova.splashscreen" source="pgb" spec="1.0.0" />
+	<plugin name="com.phonegap.plugins.pushplugin" spec="2.4.0" source="pgb" />
+	  	
+	<!-- 
+	<plugin name="io.litehelpers.cordova.sqlite" source="pgb" spec="0.7.10" />
+	<plugin name="org.apache.cordova.dialogs" source="pgb" spec="0.2.10" />
+	<plugin name="org.apache.cordova.network-information" source="pgb" spec="0.2.12" />
+	 -->
+	
+	<!--     <access origin="*" /> -->
+    <!-- New Addition 04Feb216 8:20pm -->
+    <access origin="*"/>
+    <allow-navigation href="*" />
+    
+    <allow-intent href="*" />
+     
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+     
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="android-minSdkVersion" value="14"/> 
+ 		<preference name="android-targetSdkVersion" value="22"/>
+ 		
+ 		<!-- Icons By Resolutions -->
+ 		<icon src="res/android/app_icon_ldpi.png" platform="android" qualifier="ldpi" />
+        <icon src="res/android/app_icon_mdpi.png" platform="android" qualifier="mdpi" />
+        <icon src="res/android/app_icon_hdpi.png" platform="android" qualifier="hdpi" />
+        <icon src="res/android/app_icon_xhdpi.png" platform="android" qualifier="xhdpi" />
+ 		
+ 		<!-- Splash Screen By Resolutions -->
+ 		<splash  src="res/android/splash_land_hdpi.png" platform="android" qualifier="land-hdpi" />
+ 		<splash  src="res/android/splash_land_ldpi.png" platform="android" qualifier="land-ldpi" />
+        <splash  src="res/android/splash_land_mdpi.png" platform="android" qualifier="land-mdpi" />
+        <splash  src="res/android/splash_land_xhdpi.png" platform="android" qualifier="land-xhdpi" />
+        
+        <splash  src="res/android/splash_port_hdpi.png" platform="android" qualifier="port-hdpi" />
+ 		<splash  src="res/android/splash_port_ldpi.png" platform="android" qualifier="port-ldpi" />
+        <splash  src="res/android/splash_port_mdpi.png" platform="android" qualifier="port-mdpi" />
+        <splash  src="res/android/splash_port_xhdpi.png" platform="android" qualifier="port-xhdpi" />
+         
+        <splash src="res/android/splash_default.png" />
+         <!-- 
+        <icon src="res/app_icon.png"/>
+         -->
+         
+    </platform>
+    <!-- 
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+     -->
+</widget>
