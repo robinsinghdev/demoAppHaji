@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.stavyah.haji" 
+<widget id="com.stavyah.ibhajj" 
 version="1.0.6"
 versionCode = "7" 
 xmlns="http://www.w3.org/ns/widgets" 
@@ -79,6 +79,7 @@ xmlns:cdv="http://cordova.apache.org/ns/1.0">
          -->
          
     </platform>
+	
     <!-- 
     <platform name="ios">
         <allow-intent href="itms:*" />
