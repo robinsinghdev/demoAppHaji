@@ -17,7 +17,6 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
-
 var ajaxCallGet = "GET";
 var ajaxCallPost = "POST";
 var ajaxCallUnset = "GET";
@@ -26,16 +25,34 @@ dynPanelBtnCount = 1;
 var noDataFoundMsg = "No data found.";
 //$(document).one('pagebeforecreate', function () {});
 
+$(document).on("pagechange", function (e, data) {
+  var currPage = data.toPage[0].id;
+  console.log(currPage);
+  if(currPage == 'home-page'){
+	getAvailablePackageList();
+  }
+  else if(currPage == 'login-page'){
+  }
+  else if(currPage == 'packages-page'){
+	// getAvailablePackageList();
+  }
+  else if(currPage == 'cat-wise-data-page'){
+	getActiveInfoData();
+  }
+  
+});
 
 $(document).on("pageinit", function () {
-    if($(this).attr("href") == "#"+$.mobile.pageContainer.pagecontainer("getActivePage")[0].id) {
+	// if($(this).attr("href") == "#"+$.mobile.pageContainer.pagecontainer("getActivePage")[0].id) {
     	//alert($.mobile.pageContainer.pagecontainer("getActivePage")[0].id);
-    }
+    // }
 });
 
 //var appUrl='http://192.168.1.11:8080/Edit/appEntry.do';
 //var appUrl='http://122.166.218.28:8080/Edit/appEntry.do';
-var appUrl = '';
+var appUrl = 'http://ibrahimpinto.stavyah.com/app/mobile/';
+window.localStorage["appUrl"] = appUrl;
+window.localStorage["s_key"] = 'anBPRUhxbnpHZjJiOXRHZ1JNNWhqdz09';
 var appRequiresWiFi='This action requires internet.';
 var serverBusyMsg='Server is busy, please try again later.';
 var mData={};
@@ -71,25 +88,15 @@ var app = {
         	pushNotification.register(successHandler, errorHandler, {"senderID":"329763220550","ecb":"onNotification"});		// required!
         }
 		catch(err){
-			var txt="There was an error on this page.\n\n"; 
+			var txt="There was an error on this page.\n\n";
 			txt+="Error description: " + err.message + "\n\n"; 
 			console.log(txt); 
 		}
+        
+		//db = window.sqlitePlugin.openDatabase({name: "stims.db", location: 2});
+		//db.transaction(initializeDB, errorCB, successCB);
 		
-        if(window.localStorage["appUrl"] === undefined ) {
-        	window.localStorage["appUrl"] = '';
-        	window.localStorage["schoolCode"] = '';
-        	$(".schoolCodeContainer").show();
-			$(".loginFormContainer").hide();
-        }else{
-    		//db = window.sqlitePlugin.openDatabase({name: "stims.db", location: 2});
-    		//db.transaction(initializeDB, errorCB, successCB);
-        	appUrl=window.localStorage["appUrl"];
-			
-        	
-        	//checkPreAuth();
-        }	
-		
+		//checkPreAuth();
         // $("#loginForm").on("submit",handleLogin);
     },
 };
@@ -556,8 +563,8 @@ function errorCB(err) {
 	}
 	
 	function getDataByUrlAndData(url, data, successCallbackFn, errorCallbackFn, ajaxCallType) {
-		var connectionType=checkConnection();
-		//var connectionType="WiFi connection";//For Testing
+		//var connectionType=checkConnection();
+		var connectionType="WiFi connection";//For Testing
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
 		}
@@ -757,54 +764,127 @@ function errorCB(err) {
 		}
 	}
 	
-	function getSchoolInfo(){
-		var form = $("#schoolCodeForm");
-		$("#getSchoolInfoSubmitBtn", form).attr("disabled","disabled");
-		var schoolCode = $("#schoolCode", form).val();
-		//schoolCode ='editlocal'; //schoolCode
-		//schoolCode ='kcs003'; //schoolCode
-		
-		if(schoolCode != '') {
-			var mData={};
-			showModal();
-			mData.schoolCode = schoolCode;
-			var schoolInfoAppUrl ='http://editapi.edit-ims.com/editimsapi.php';
-			var dataToSend = {};
-			dataToSend["action"] = "instcode";
-			dataToSend["instcode"] = schoolCode;
-			window.localStorage["schoolCode"] = schoolCode;
-			dataToSend["mData"] = JSON.stringify(mData);
-			//{"action":"instcode","instcode": schoolCode, "mData":JSON.stringify(mData) },
-			getDataByUrlAndData(schoolInfoAppUrl, dataToSend, schoolInfoSuccessCB, schoolInfoErrorCB, ajaxCallPost);
-			
-			$("#getSchoolInfoSubmitBtn").removeAttr("disabled");
-		}
-		else{
-			navigator.notification.alert('You must enter school code.',	alertConfirm,'EDIT','Ok');
-			$("#getSchoolInfoSubmitBtn").removeAttr("disabled");
-		}
+	function getAvailablePackageList(){
+		var mData={};
+		mData["action"] = 'getAvailablePackageList';
+		mData["s_key"] = window.localStorage["s_key"];
+		getDataByUrlAndData(appUrl, mData, getAvailablePackageListSuccessCB, commonAppErrorCB, ajaxCallGet);
 		return false;
 	}
 	
-	function schoolInfoSuccessCB(data){
+	function getAvailablePackageListSuccessCB(data){
 		var responseJson = jQuery.parseJSON(data);
-		var jsonArrInstitutes = responseJson["jsonArrInstitutes"];
-		var status = jsonArrInstitutes["status"];
-		if(status == 1){
-			var server_appentry = jsonArrInstitutes["server_appentry"];
-			console.log(server_appentry);
-			appUrl=server_appentry;
-			window.localStorage["appUrl"]=server_appentry;
-			$(".schoolCodeContainer").hide();
-			$(".loginFormContainer").show();
-			$(".schoolCodeLabel").html(window.localStorage["schoolCode"]);
-		}else if(status == 0){
+		var ajaxStatus = responseJson["status"];
+		
+		if(ajaxStatus == 'success'){
+			var image_path=responseJson["image_path"];
+			
+			var resultArr = responseJson["result"];
+			if(resultArr.length > 0){
+			
+				jQuery.each(resultArr, function(index, item) {
+					var currImg = image_path + item["mobile_image"];
+					
+					var tp_id = item["tp_id"];
+					var name = item["name"];
+					var from_date = item["from_date"];
+					var to_date = item["to_date"];
+					var booking_open_from = item["booking_open_from"];
+					var booking_open_till = item["booking_open_till"];
+					var starting_destination = item["starting_destination"];
+					var destination = item["destination"];
+					var price_inr = item["price_inr"];
+					
+					var description = item["description"];
+					var package_status = item["package_status"];
+					var is_deleted = item["is_deleted"];
+					
+					var dataEleObj= '<li class="ui-li-has-thumb">'
+											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+											+ '<img class="ui-thumbnail ui-thumbnail-circular" src="http://lorempixel.com/150/150/people/1/" class="ui-thumbnail ui-thumbnail-circular" /> '
+												+ ' <h2>' + name + '</h2> '
+												+ ' <p>' + booking_open_from + '</p> '
+												+ ' <p>More Info </p> '
+												+ ' <p>More Info </p> '
+												+ ' <p>More Info </p> '
+												+ ' <p style="display:none;">' + item["general_info"] + '</p> '
+											+ '</a> '
+										+ '</li>';
+					$("ul.packages-list").append(dataEleObj);					
+				});
+			}
+			else{
+				var dataEleObj= '<li class="ui-li-divider ui-bar-inherit" data-role="list-divider" role="heading"> ' + 
+									' No data found.</li>';
+					$("ul.packages-list").append(dataEleObj);
+			}
+		}
+		else {
 			navigator.notification.alert('Please input correct institute code', alertConfirm, 'EDIT','Ok');
 		}
 		hideModal();
 	}
 	
-	function schoolInfoErrorCB(data){
+	function getActiveInfoData(){
+		var mData={};
+		mData["action"] = 'getActiveInfoData';
+		mData["s_key"] = window.localStorage["s_key"];
+		getDataByUrlAndData(appUrl, mData, getActiveInfoDataSuccessCB, commonAppErrorCB, ajaxCallGet);
+		return false;
+	}
+	
+	
+	
+	function getActiveInfoDataSuccessCB(data){
+		var responseJson = jQuery.parseJSON(data);
+		var ajaxStatus = responseJson["status"];
+		
+		if(ajaxStatus == 'success'){
+			
+			var image_path=responseJson["image_path"];
+			var constantsData=responseJson["constants"];
+			
+			// var constantsDataStatus=constantsData["status"];
+			// var constantsDataStatusArr = getObjDataInArray(constantsDataStatus);
+			// iterateAndAppendData(constantsDataStatusArr, $("ul.sdf"));
+			
+			var constantsDataCategory=constantsData["category"];
+			var constantsDataCategoryArr = getObjDataInArray(constantsDataCategory);
+			// iterateAndAppendData(constantsDataCategoryArr, $("ul.sdf"));
+			
+			jQuery.each(constantsDataCategoryArr, function(index, item) {
+				//console.log(item["key"] +  );
+				var catDividerObj= '<li class="ui-li-divider ui-bar-inherit" data-role="list-divider" role="heading"  data-catid="' + item["key"] + '"> ' + item["value"] + ' </li>';
+				$("ul.home-page-cat-wise-list").append(catDividerObj);
+			});
+			
+			var resultArr = responseJson["result"];
+			if(resultArr.length > 0){
+			
+				jQuery.each(resultArr, function(index, item) {
+					var topic_name = item["topic_name"];
+					var general_info = item["general_info"];
+					var category = item["category"];
+					var currImg = image_path + item["mobile_image"];
+					
+					var catWiseDataObj= '<li class="ui-li-has-thumb">'
+											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+											+ '<img class="ui-thumbnail ui-thumbnail-circular" src="http://lorempixel.com/150/150/people/1/" class="ui-thumbnail ui-thumbnail-circular" /> '
+												+ ' <h2>' + item["topic_name"] + '</h2> '
+												+ ' <p>' + item["general_info"] + '</p> '
+											+ '</a> '
+										+ '</li>';
+					$("ul.home-page-cat-wise-list").find("li[data-catid='" + item["category"] + "']").after(catWiseDataObj);					
+				});
+			}
+		}
+		else {
+			navigator.notification.alert('Please input correct institute code', alertConfirm, 'EDIT','Ok');
+		}
+		hideModal();
+	}
+	
+	function commonAppErrorCB(data){
 		 hideModal();
 		 navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
 		 var responseJson = $.parseJSON(data);
@@ -815,5 +895,53 @@ function errorCB(err) {
 	
 	function alertCustomMsg(msg){
 		navigator.notification.alert(msg, alertConfirm, 'EDIT', 'Ok');	
+	}
+	
+	// For iterateAndAppendData
+	function iterateAndAppendData(array, elementObj) {
+		try{
+			jQuery.each(array, function(index, item) {
+				console.log(item["key"] + "---" + item["value"] );
+				
+				//$elementObj).append();
+			});
+			return true;
+		}catch(err){
+			var txt="There was an error on this page.\n\n";
+			txt+="Error description: " + err.message + "\n\n"; 
+			console.log(txt);
+			return false;
+		}
+	}
+	
+	// For getting Property Count of object
+	function getPropertyCount(obj) {
+		var count = 0,
+			key;
+
+		for (key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				count++;
+				console.log(obj[key]);
+			}
+		}
+		return count;
+	}
+	
+	// For constants : Converting Obj to array 
+	function getObjDataInArray(obj) {
+		var count = 0,
+			key, value;
+		var arrayTemp=[];
+		for (key in obj) {
+			var objTemp={};
+			objTemp["key"]=key;
+			objTemp["value"]=obj[key];
+			if (obj.hasOwnProperty(key)) {
+				arrayTemp[count]=objTemp;
+				count++;
+			}
+		}
+		return arrayTemp;
 	}
 	
