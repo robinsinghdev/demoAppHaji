@@ -945,3 +945,22 @@ function errorCB(err) {
 		return arrayTemp;
 	}
 	
+	
+	function showFullProfilePara(){
+		$(".full-profile-para").show();
+		$(".full-profile-btn-div").hide();
+	}
+	
+	function showFullChairmaneMsgPara(){
+		$(".full-profile-para").show();
+		$(".full-chairman-msg-btn-div").hide();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
