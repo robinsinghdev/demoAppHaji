@@ -801,12 +801,10 @@ function errorCB(err) {
 					
 					var dataEleObj= '<li class="ui-li-has-thumb">'
 											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
-											+ '<img class="ui-thumbnail ui-thumbnail-circular" src="http://lorempixel.com/150/150/people/1/" class="ui-thumbnail ui-thumbnail-circular" /> '
+												+ '<img class="ui-thumbnail ui-thumbnail-circular" src="img/examples/airplane-icon.png" /> '
 												+ ' <h2>' + name + '</h2> '
-												+ ' <p>' + booking_open_from + '</p> '
-												+ ' <p>More Info </p> '
-												+ ' <p>More Info </p> '
-												+ ' <p>More Info </p> '
+												+ ' <p>' + from_date + ' to ' + to_date + ' </p> '
+												+ ' <p><strong>Know More</p> '
 												+ ' <p style="display:none;">' + item["general_info"] + '</p> '
 											+ '</a> '
 										+ '</li>';
@@ -952,7 +950,7 @@ function errorCB(err) {
 	}
 	
 	function showFullChairmaneMsgPara(){
-		$(".full-profile-para").show();
+		$(".full-chairman-msg-para").show();
 		$(".full-chairman-msg-btn-div").hide();
 	}
 	
