@@ -1,13 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.stavyah.ibhajj" 
-version="1.0.1"
-versionCode = "1" 
+<widget id="com.stavyah.ibpinto" 
+version="1.0.2"
+versionCode = "4" 
 xmlns="http://www.w3.org/ns/widgets" 
 xmlns:gap   = "http://phonegap.com/ns/1.0" 
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Ibrahim Pinto</name>
     <description>
-        Android Application for Ibrahim Pinto International Hajj and Umrah Services
+        App for Ibrahim Pinto Hajj and Umrah Services
     </description>
     <author email="mangesh@stavyah.com" href="http://www.stavyah.com">
         Stavyah Technologies LLP
