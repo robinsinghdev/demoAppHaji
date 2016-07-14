@@ -799,12 +799,11 @@ function errorCB(err) {
 					var package_status = item["package_status"];
 					var is_deleted = item["is_deleted"];
 					
-					var dataEleObj= '<li class="ui-li-has-thumb">'
+					var dataEleObj= '<li class="">'
 											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
-												+ '<img class="ui-thumbnail ui-thumbnail-circular" src="img/examples/airplane-icon.png" /> '
 												+ ' <h2>' + name + '</h2> '
-												+ ' <p>' + from_date + ' to ' + to_date + ' </p> '
-												+ ' <p><strong>Know More</p> '
+												+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
+												+ ' <p><strong>Know More..<i class="zmdi zmdi-airplanemode-active zmd-fw"></i></p> '
 												+ ' <p style="display:none;">' + item["general_info"] + '</p> '
 											+ '</a> '
 										+ '</li>';
