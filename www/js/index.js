@@ -23,10 +23,12 @@ var ajaxCallUnset = "GET";
 var dynPanelCount = 1,
 dynPanelBtnCount = 1;
 var noDataFoundMsg = "No data found.";
+var currentPageTemp;
 //$(document).one('pagebeforecreate', function () {});
 
 $(document).on("pagechange", function (e, data) {
   var currPage = data.toPage[0].id;
+  currentPageTemp=currPage;
   console.log(currPage);
   if(currPage == 'home-page'){
 	getAvailablePackageList();
@@ -34,7 +36,7 @@ $(document).on("pagechange", function (e, data) {
   else if(currPage == 'login-page'){
   }
   else if(currPage == 'packages-page'){
-	// getAvailablePackageList();
+	getAvailablePackageList();
   }
   else if(currPage == 'cat-wise-data-page'){
 	getActiveInfoData();
@@ -793,27 +795,27 @@ function errorCB(err) {
 					var booking_open_till = item["booking_open_till"];
 					var starting_destination = item["starting_destination"];
 					var destination = item["destination"];
-					var price_inr = item["price_inr"];
-					
+					var price_inr = item["price_inr"];					
 					var description = item["description"];
 					var package_status = item["package_status"];
 					var is_deleted = item["is_deleted"];
 					
-					var dataEleObj= '<li class="">'
+					var dataEleObj= '<li class="" data-tpid="' + tp_id + '" onclick="get">'
 											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
 												+ ' <h2>' + name + '</h2> '
 												+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
+												+ ' <p><i class="zmdi zmdi-airplanemode-active zmd-fw"></i>' + starting_destination + ' to ' + destination + '</p> '
+												+ ' <p>' + price_inr + ' </p> '
 												+ ' <p><strong>Know More..<i class="zmdi zmdi-airplanemode-active zmd-fw"></i></p> '
-												+ ' <p style="display:none;">' + item["general_info"] + '</p> '
 											+ '</a> '
 										+ '</li>';
-					$("ul.packages-list").append(dataEleObj);					
+					$("#"+ currentPageTemp + " ul.packages-list").append(dataEleObj);				
 				});
 			}
 			else{
 				var dataEleObj= '<li class="ui-li-divider ui-bar-inherit" data-role="list-divider" role="heading"> ' + 
 									' No data found.</li>';
-					$("ul.packages-list").append(dataEleObj);
+					$("#"+ currentPageTemp + "ul.packages-list").append(dataEleObj);
 			}
 		}
 		else {
