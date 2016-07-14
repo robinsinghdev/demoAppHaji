@@ -783,7 +783,8 @@ function errorCB(err) {
 			
 			var resultArr = responseJson["result"];
 			if(resultArr.length > 0){
-			
+				
+				$("#"+ currentPageTemp + " ul.packages-list").empty();
 				jQuery.each(resultArr, function(index, item) {
 					var currImg = image_path + item["mobile_image"];
 					
@@ -859,7 +860,8 @@ function errorCB(err) {
 			
 			var resultArr = responseJson["result"];
 			if(resultArr.length > 0){
-			
+				
+				$("ul.home-page-cat-wise-list").empty();
 				jQuery.each(resultArr, function(index, item) {
 					var topic_name = item["topic_name"];
 					var general_info = item["general_info"];
@@ -888,7 +890,7 @@ function errorCB(err) {
 		 navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
 		 var responseJson = $.parseJSON(data);
 		 if(responseJson.status==404){
-		   navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
 		 }
 	}
 	
