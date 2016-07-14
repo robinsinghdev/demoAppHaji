@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.stavyah.ibpinto" 
+<widget id="com.stavyah.ipintotest" 
 version="1.0.2"
 versionCode = "4" 
 xmlns="http://www.w3.org/ns/widgets" 
 xmlns:gap   = "http://phonegap.com/ns/1.0" 
 xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ibrahim Pinto</name>
+    <name>IPinto test  </name>
     <description>
         App for Ibrahim Pinto Services
     </description>
