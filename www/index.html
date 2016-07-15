@@ -38,15 +38,51 @@
 	<body>
 		<div id="app">
 			<div data-role="page" id="home-page" class="home-page">
-
-				<nd2-include data-src="examples/fragments/panel.left.html"></nd2-include>
+				
+				<!-- panel left -->
+				<div data-position-fixed="true" data-display="overlay" id="leftpanelhomepage" data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-inherit ui-panel-fixed ui-panel-animate">
+					
+					<div class="ui-panel-inner">
+						<div class="nd2-sidepanel-profile fadeInDown">
+							<img src="http//lorempixel.com/400/200/abstract/2/" class="profile-background">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box profile-text">
+										<strong>Ibrahim Pinto</strong>
+										<span class="subline">Booking Id</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ul data-inset="false" data-role="listview" class="ui-listview">
+							<li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child ui-last-child">Menu</li>
+						</ul>
+						<div data-inset="false">
+							<ul data-icon="false" data-inset="false" data-role="listview" class="ui-listview">
+								<li class="ui-first-child"><a data-icon="false" data-ajax="false" href="#home-page" class="ui-btn waves-effect waves-button">Home</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#packages-page" class="ui-btn waves-effect waves-button">Packages</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#login-page" class="ui-btn waves-effect waves-button">Booking Status</a></li>
+								<li class="ui-last-child">
+								<a data-icon="false" data-ajax="false" href="#"  class="ui-btn waves-effect waves-button">Sayings &amp; Quotes</a></li>
+							</ul>
+						</div>
+						
+						<hr class="inset">
+						
+						<div>
+							<ul data-role="listview" data-inset="false" data-icon="false" >
+								<li><a href="#" data-ajax="false" data-icon="false">v1.0.3</a></li>
+							</ul>
+						</div>
+					</div>								
+					
+				</div>
+				<!-- /panel left -->
 
 				<div data-role="header" data-position="fixed" class="animated fadeInDown">
-			
 					<a href="#login-page" class="ui-btn ui-btn-right fadeIn" ><i class="zmdi zmdi-sign-in zmd-fw"></i></a>
 			
-					<a href="#leftpanel" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
-					
+					<a href="#leftpanelhomepage" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
 					<h1 class="fadeIn" >Ibrahim Pinto</h1>
 				</div>
 				
@@ -147,20 +183,72 @@
 							</ul>
 						</div>
 					</div>
+					
+					<div data-role="popup" id="popupDialog">
+
+						<div data-role="header">
+							<h1 class='nd-title'>Sayings & Quotes</h1>
+						</div>
+
+						<div data-role="content">
+							<p>No data found currently.</p>
+							<a href="dialog/index.html" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='zmdi zmdi-check'></i> Sounds good</a>
+							<a href="dialog/index.html" data-rel="back" data-role="button" data-inline="true" class="ui-btn ui-btn-primary"><i class='zmdi zmdi-cancel'></i> Cancel</a>
+
+						</div>
+					</div>
+						
 						
 				</div>
 
 			</div>
 			
 			<div data-role="page" id="packages-page" class="packages-page">
-
-				<nd2-include data-src="examples/fragments/panel.left.html"></nd2-include>
+				
+				<!-- panel left -->
+				<div data-position-fixed="true" data-display="overlay" id="leftpanelpackagespage" data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-inherit ui-panel-fixed ui-panel-animate">
+					
+					<div class="ui-panel-inner">
+						<div class="nd2-sidepanel-profile fadeInDown">
+							<img src="http//lorempixel.com/400/200/abstract/2/" class="profile-background">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box profile-text">
+										<strong>Ibrahim Pinto</strong>
+										<span class="subline">Booking Id</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ul data-inset="false" data-role="listview" class="ui-listview">
+							<li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child ui-last-child">Menu</li>
+						</ul>
+						<div data-inset="false">
+							<ul data-icon="false" data-inset="false" data-role="listview" class="ui-listview">
+								<li class="ui-first-child"><a data-icon="false" data-ajax="false" href="#home-page" class="ui-btn waves-effect waves-button">Home</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#packages-page" class="ui-btn waves-effect waves-button">Packages</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#login-page" class="ui-btn waves-effect waves-button">Booking Status</a></li>
+								<li class="ui-last-child"><a data-icon="false" data-ajax="false" href="#" class="ui-btn waves-effect waves-button">Sayings &amp; Quotes</a></li>
+							</ul>
+						</div>
+						
+						<hr class="inset">
+						
+						<div>
+							<ul data-role="listview" data-inset="false" data-icon="false" >
+								<li><a href="#" data-ajax="false" data-icon="false">v1.0.3</a></li>
+							</ul>
+						</div>
+					</div>								
+					
+				</div>
+				<!-- /panel left -->
 
 				<div data-role="header" data-position="fixed" class="fadeInDown">
 			
 					<a href="#login-page" class="ui-btn ui-btn-right fadeIn" ><i class="zmdi zmdi-sign-in zmd-fw"></i></a>
 			
-					<a href="#leftpanel" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
+					<a href="#leftpanelpackagespage" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
 					
 					<h1 class="fadeIn" >Packages</h1>
 				</div>
@@ -201,12 +289,49 @@
 			</div>
 			
 			<div data-role="page" id="login-page" class="login-page">
-
-				<nd2-include data-src="examples/fragments/panel.left.html"></nd2-include>
+				
+				<!-- panel left -->
+				<div data-position-fixed="true" data-display="overlay" id="leftpanelloginpage" data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-inherit ui-panel-fixed ui-panel-animate">
+					
+					<div class="ui-panel-inner">
+						<div class="nd2-sidepanel-profile fadeInDown">
+							<img src="http//lorempixel.com/400/200/abstract/2/" class="profile-background">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box profile-text">
+										<strong>Ibrahim Pinto</strong>
+										<span class="subline">Booking Id</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ul data-inset="false" data-role="listview" class="ui-listview">
+							<li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child ui-last-child">Menu</li>
+						</ul>
+						<div data-inset="false">
+							<ul data-icon="false" data-inset="false" data-role="listview" class="ui-listview">
+								<li class="ui-first-child"><a data-icon="false" data-ajax="false" href="#home-page" class="ui-btn waves-effect waves-button">Home</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#packages-page" class="ui-btn waves-effect waves-button">Packages</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#login-page" class="ui-btn waves-effect waves-button">Booking Status</a></li>
+								<li class="ui-last-child"><a data-icon="false" data-ajax="false" href="#" class="ui-btn waves-effect waves-button">Sayings &amp; Quotes</a></li>
+							</ul>
+						</div>
+						
+						<hr class="inset">
+						
+						<div>
+							<ul data-role="listview" data-inset="false" data-icon="false" >
+								<li><a href="#" data-ajax="false" data-icon="false">v1.0.3</a></li>
+							</ul>
+						</div>
+					</div>								
+					
+				</div>
+				<!-- /panel left -->
 
 				<div data-role="header" data-position="fixed" class="animated fadeInDown">
 			
-					<a href="#leftpanel" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
+					<a href="#leftpanelloginpage" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
 					
 					<h1 class="fadeIn" >Booking Status</h1>
 				</div>
@@ -216,7 +341,7 @@
 					<div class="col-xs-12 col-sm-12 col-md-12">
 							<div class="box">
 						
-								<div id="logoContainer" class="centerText animated bounce">
+								<div id="logoContainer" class="centerText animated bounce" style="text-align: center;">
 									<img src="img/examples/login-logo.png" id="logo"  />
 										 <br/> <br/>
 								</div>
@@ -224,7 +349,7 @@
 								<div class="form-container loginFormContainer animated fadeInDown" >
 									<form  id="loginForm" action="">
 									
-										<label for="username">Username:</label>
+										<label for="username">Booking Id:</label>
 										<input type="text" name="username" id="username" value="" data-clear-btn="true" placeholder="Username" maxlength="20" required>
 							
 										<label for="password">Password:</label>
@@ -243,14 +368,51 @@
 			
 			
 			<div data-role="page" id="cat-wise-data-page" class="cat-wise-data-page">
-
-				<nd2-include data-src="examples/fragments/panel.left.html"></nd2-include>
+				
+				<!-- panel left -->
+				<div data-position-fixed="true" data-display="overlay" id="leftpanelcatpage" data-role="panel" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-inherit ui-panel-fixed ui-panel-animate">
+					
+					<div class="ui-panel-inner">
+						<div class="nd2-sidepanel-profile fadeInDown">
+							<img src="http//lorempixel.com/400/200/abstract/2/" class="profile-background">
+							<div class="row">
+								<div class="col-xs-12">
+									<div class="box profile-text">
+										<strong>Ibrahim Pinto</strong>
+										<span class="subline">Booking Id</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<ul data-inset="false" data-role="listview" class="ui-listview">
+							<li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-inherit ui-first-child ui-last-child">Menu</li>
+						</ul>
+						<div data-inset="false">
+							<ul data-icon="false" data-inset="false" data-role="listview" class="ui-listview">
+								<li class="ui-first-child"><a data-icon="false" data-ajax="false" href="#home-page" class="ui-btn waves-effect waves-button">Home</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#packages-page" class="ui-btn waves-effect waves-button">Packages</a></li>
+								<li><a data-icon="false" data-ajax="false" href="#login-page" class="ui-btn waves-effect waves-button">Booking Status</a></li>
+								<li class="ui-last-child"><a data-icon="false" data-ajax="false" href="#" class="ui-btn waves-effect waves-button">Sayings &amp; Quotes</a></li>
+							</ul>
+						</div>
+						
+						<hr class="inset">
+						
+						<div>
+							<ul data-role="listview" data-inset="false" data-icon="false" >
+								<li><a href="#" data-ajax="false" data-icon="false">v1.0.3</a></li>
+							</ul>
+						</div>
+					</div>								
+					
+				</div>
+				<!-- /panel left -->
 
 				<div data-role="header" data-position="fixed" class="animated fadeInDown">
 			
 					<a href="#login-page" class="ui-btn ui-btn-right fadeIn" ><i class="zmdi zmdi-sign-in zmd-fw"></i></a>
 			
-					<a href="#leftpanel" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
+					<a href="#leftpanelcatpage" class="ui-btn ui-btn-left fadeIn" ><i class="zmdi zmdi-menu"></i></a>
 					
 					<h1 class="animated fadeIn" >Ibrahim Pinto</h1>
 				</div>

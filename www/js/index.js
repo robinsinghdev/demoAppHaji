@@ -1,4 +1,5 @@
 
+var appName="Ibrahim Pinto";
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -17,6 +18,46 @@ $( document ).on( "mobileinit", function() {
      $.mobile.toolbar.prototype.options.tapToggle = false;
 });
 
+var leftPanelObj= 		
+						'<div class="nd2-sidepanel-profile fadeInDown" >'+
+							'<img class="profile-background" src="http//lorempixel.com/400/200/abstract/2/" />'+
+							'<div class="row">'+
+								'<div class="col-xs-12">'+
+									'<div class="box profile-text">'+
+										'<strong>Ibrahim Pinto</strong>'+
+										'<span class="subline">Hajj & Umrah Services</span>'+
+									'</div>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+						
+
+						'<ul data-role="listview" data-inset="false" >'+
+							'<li data-role="list-divider">Menu</li>'+
+						'</ul>'+
+						
+						'<div data-inset="false" >'+
+							'<ul data-role="listview" data-inset="false" data-icon="false" >'+
+								'<li><a href="#home-page" data-ajax="false" data-icon="false">Home</a></li>'+
+								'<li><a href="#packages-page" data-ajax="false" data-icon="false">Packages</a></li>'+
+								'<li><a href="#" data-ajax="false" data-icon="false">Booking Status</a></li>'+
+								'<li><a href="#" data-ajax="false" data-icon="false">Sayings & Quotes</a></li>'+
+								'<li><a href="#" data-ajax="false" data-icon="false">About Us</a></li>'+
+							'</ul>'+
+						'</div>'+
+						
+						'<hr class="inset">'+
+						
+						'<ul data-role="listview" data-inset="false">'+
+							'<li data-role="list-divider">Information</li>'+
+						'</ul>'+
+						
+						'<div>'+
+							'<ul data-role="listview" data-inset="false" data-icon="false" >'+
+								'<li><a href="#" data-ajax="false" data-icon="false">v1.0.3</a></li>'+
+							'</ul>'+
+						'</div>';
+
 var ajaxCallGet = "GET";
 var ajaxCallPost = "POST";
 var ajaxCallUnset = "GET";
@@ -24,9 +65,57 @@ var dynPanelCount = 1,
 dynPanelBtnCount = 1;
 var noDataFoundMsg = "No data found.";
 var currentPageTemp;
+
+function panelsInitialization(initLeftPanelFlag, initRightPanelFlag, roleId){
+	dynPanelCount = 1;
+	dynPanelBtnCount = 1;
+    
+	$.mobile.pageContainer.find("[data-role=page]").each(function () {
+		var currPanelObj = $(this).find(".st-leftPanel");
+		var panelFoundFlag = currPanelObj.length;
+		console.log(panelFoundFlag);
+		console.log(panelFoundFlag);
+			
+			if(panelFoundFlag == 0){
+				var leftPanelDynObj="";
+		        leftPanelDynObj += '<div id="leftPanel' + dynPanelCount + '" class="panel left st-leftPanel" data-role="panel" data-position="left" data-position-fixed="true" data-display="overlay" >';
+		        
+		        	leftPanelDynObj += leftPanelObj;
+		        	leftPanelDynObj += '</div>';
+		        
+		        $(this).prepend(leftPanelDynObj);
+			}
+			else{
+				console.log("panel--"+$(this).attr("id")+"---"+currPanelObj.find(".ui-panel-inner").length);
+				
+				currPanelObj.find("#menu-wrapper .menu").html(leftPanelObj);
+				if(currPanelObj.find(".ui-panel-inner").length == 0){
+					currPanelObj.find(".ui-panel-inner ul.menu").html(leftPanelObj);
+				}
+			}
+	        dynPanelCount++;
+	        
+	        var btnFoundFlag = $(this).find("[data-role=header] .st-leftPanel-btn").length;
+			
+	        if(btnFoundFlag == 0){
+	        	var leftPanelDynBtn='<a class="ui-btn-left fadeIn waves-effect waves-button ui-btn ui-btn-active" href="#leftpanel' + (dynPanelBtnCount) + '" data-role="button" role="button"><i class="zmdi zmdi-menu"></i></a>';	
+	    		var rightPanelDynBtn='<a class="ui-btn-right fadeIn waves-effect waves-button ui-btn" href="#login-page" data-role="button" role="button"><i class="zmdi zmdi-sign-in zmd-fw"></i></a>';
+				
+	    		$(this).find("[data-role=header]").append(leftPanelDynBtn);
+	    		$(this).find("[data-role=header]").append(rightPanelDynBtn);
+	        }
+			dynPanelBtnCount++;	
+    }); 
+}
+
 //$(document).one('pagebeforecreate', function () {});
 
+$(document).on("pagebeforeshow", function () {
+	//panelsInitialization(true, true, 0);
+});	
+
 $(document).on("pagechange", function (e, data) {
+	
   var currPage = data.toPage[0].id;
   currentPageTemp=currPage;
   console.log(currPage);
@@ -49,6 +138,8 @@ $(document).on("pageinit", function () {
     	//alert($.mobile.pageContainer.pagecontainer("getActivePage")[0].id);
     // }
 });
+
+
 
 //var appUrl='http://192.168.1.11:8080/Edit/appEntry.do';
 //var appUrl='http://122.166.218.28:8080/Edit/appEntry.do';
@@ -88,6 +179,7 @@ var app = {
 		try{
         	pushNotification = window.plugins.pushNotification;
         	pushNotification.register(successHandler, errorHandler, {"senderID":"329763220550","ecb":"onNotification"});		// required!
+			
         }
 		catch(err){
 			var txt="There was an error on this page.\n\n";
@@ -225,7 +317,7 @@ function checkPreAuth() {
 		}
 	}
 	else{
-		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, 'EDIT','Ok');
+		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, 'Ibrahim Pinto','Ok');
 	}
 }
 
@@ -270,12 +362,12 @@ function handleLogin() {
 		var loginData={};
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			if(window.localStorage["user_logged_in"] ==1) {
-				navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 				//checkingUserAssignedRoles();
 				//$.mobile.changePage('#home-page',{ transition: "slideup"});
 			}
 			else{
-				navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 			}	
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -332,7 +424,7 @@ function handleLogin() {
 							$("#staff_homepage").show();
 							$("#student_homepage").hide();
 						}
-						panelsInitialization(true, true, loginDataResponse["userRoleId"]);
+						panelsInitialization(true, true, 0);
 						$.mobile.changePage('#home-page',{ transition: "slideup"});
 					}else{
 						window.localStorage["password"] = '';
@@ -346,27 +438,27 @@ function handleLogin() {
 						$.mobile.changePage('#login-page','slide');
 						
 						navigator.notification.alert(responseMessage,		//'Invalid Credentials, please try again.',
-						    alertConfirm, 'EDIT', 'Ok');
+						    alertConfirm, 'Ibrahim Pinto', 'Ok');
 					}
 				hideModal();
 			   },
 			   error:function(data,t,f){
 				   hideModal();
-				   navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+				   navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 				   var responseJson = $.parseJSON(data);
 				   if(responseJson.status==404){
-					   navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+					   navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 				   }
 			   }
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 		$("#submitButton").removeAttr("disabled");
 	}
 	else{
-		navigator.notification.alert('You must enter a username and password.', alertConfirm, 'EDIT', 'Ok');
+		navigator.notification.alert('You must enter credentials.', alertConfirm, 'Ibrahim Pinto', 'Ok');
 		$("#submitButton").removeAttr("disabled");
 	}
 	return false;
@@ -376,7 +468,7 @@ function showExitDialog() {
     navigator.notification.confirm(
             ("Do you want to Exit?"), // message
             alertexit, // callback
-            'EDIT', // title
+            'Ibrahim Pinto', // title
             'YES,NO' // buttonName
     );
 }
@@ -393,7 +485,7 @@ function doLogout() {
 	var connectionType=checkConnection();
 	//var connectionType="Unknown connection";//For Testing
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-		navigator.notification.alert('Logout requires active internet connection', alertConfirm, 'EDIT', 'Ok');
+		navigator.notification.alert('Logout requires active internet connection', alertConfirm, 'Ibrahim Pinto', 'Ok');
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		showLogoutDialog();
@@ -415,7 +507,7 @@ function showLogoutDialog() {
     navigator.notification.confirm(
             ("Are you sure to Logout?"), // message
             alertlogout, // callback
-            'EDIT', // title
+            'Ibrahim Pinto', // title
             'YES,NO' // buttonName
     );
 }
@@ -541,7 +633,7 @@ function errorCB(err) {
 		//var connectionType="WiFi connection";//For Testing
 		
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			showModal();
@@ -560,7 +652,7 @@ function errorCB(err) {
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 	}
 	
@@ -568,7 +660,7 @@ function errorCB(err) {
 		//var connectionType=checkConnection();
 		var connectionType="WiFi connection";//For Testing
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			showModal();
@@ -587,7 +679,7 @@ function errorCB(err) {
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 	}
 	
@@ -600,10 +692,10 @@ function errorCB(err) {
 	
 	function commonErrorCallback(data) {
 	    hideModal();
-		navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+		navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		var responseJson = $.parseJSON(data);
 		if(responseJson.status==404){
-		     navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');
+		     navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
 		}
 	}
 	
@@ -669,7 +761,7 @@ function errorCB(err) {
 			}
 			$.mobile.changePage('#common-page','slide');
 		}else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');					
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');					
 		}
 		hideModal();
 	}
@@ -747,7 +839,7 @@ function errorCB(err) {
 			}
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'EDIT','Ok');					
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');					
 		}
 		hideModal();
 	}
@@ -820,7 +912,7 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, 'EDIT','Ok');
+			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
 		}
 		hideModal();
 	}
@@ -880,22 +972,22 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, 'EDIT','Ok');
+			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
 		}
 		hideModal();
 	}
 	
 	function commonAppErrorCB(data){
 		 hideModal();
-		 navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
+		 navigator.notification.alert("Connection Problem" ,alertConfirm,'Ibrahim Pinto','Ok');
 		 var responseJson = $.parseJSON(data);
 		 if(responseJson.status==404){
-			navigator.notification.alert("Connection Problem" ,alertConfirm,'EDIT','Ok');
+			navigator.notification.alert("Connection Problem" ,alertConfirm,'Ibrahim Pinto','Ok');
 		 }
 	}
 	
 	function alertCustomMsg(msg){
-		navigator.notification.alert(msg, alertConfirm, 'EDIT', 'Ok');	
+		navigator.notification.alert(msg, alertConfirm, 'Ibrahim Pinto', 'Ok');	
 	}
 	
 	// For iterateAndAppendData
@@ -956,6 +1048,8 @@ function errorCB(err) {
 		$(".full-chairman-msg-para").show();
 		$(".full-chairman-msg-btn-div").hide();
 	}
+	
+	
 	
 	
 	
