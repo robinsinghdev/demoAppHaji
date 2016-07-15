@@ -858,6 +858,8 @@ function errorCB(err) {
 		}
 	}
 	
+	
+	
 	function getAvailablePackageList(){
 		var mData={};
 		mData["action"] = 'getAvailablePackageList';
@@ -893,12 +895,12 @@ function errorCB(err) {
 					var package_status = item["package_status"];
 					var is_deleted = item["is_deleted"];
 					
-					var dataEleObj= '<li class="" data-tpid="' + tp_id + '" onclick="get">'
+					var dataEleObj= '<li class="" data-tpid="' + tp_id + '" onclick="getAvailablePackageById(this);">'
 											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
 												+ ' <h2>' + name + '</h2> '
 												+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
 												+ ' <p><i class="zmdi zmdi-airplanemode-active zmd-fw"></i>' + starting_destination + ' to ' + destination + '</p> '
-												+ ' <p>' + price_inr + ' </p> '
+												+ ' <p>INR:' + price_inr + ' </p> '
 												+ ' <p><strong>Know More..<i class="zmdi zmdi-airplanemode-active zmd-fw"></i></p> '
 											+ '</a> '
 										+ '</li>';
@@ -917,6 +919,85 @@ function errorCB(err) {
 		hideModal();
 	}
 	
+	function getAvailablePackageById(thiss){
+		var tpid = $(thiss).data("tpid");
+		console.log(""+tpid);
+		var mData={};
+		mData["action"] = 'getAvailablePackageById';
+		mData["s_key"] = window.localStorage["s_key"];
+		mData["id"] = tpid;
+		getDataByUrlAndData(appUrl, mData, getAvailablePackageByIdSuccessCB, commonAppErrorCB, ajaxCallGet);
+		return false;
+	}
+	
+	function getAvailablePackageByIdSuccessCB(data){
+		var responseJson = jQuery.parseJSON(data);
+		var ajaxStatus = responseJson["status"];
+		
+		if(ajaxStatus == 'success'){
+			$.mobile.changePage('#packages-details-page','slide');
+			 
+			var image_path=responseJson["image_path"];
+			
+			var resultObj = responseJson["result"];
+			var item=resultObj;
+			
+				
+				var currImg = image_path + item["mobile_image"];
+				
+				var tp_id = item["tp_id"];
+				var name = item["name"];
+				var from_date = item["from_date"];
+				var to_date = item["to_date"];
+				var booking_open_from = item["booking_open_from"];
+				var booking_open_till = item["booking_open_till"];
+				var starting_destination = item["starting_destination"];
+				var destination = item["destination"];
+				var price_inr = item["price_inr"];					
+				var description = item["description"];
+				var package_status = item["package_status"];
+				var is_deleted = item["is_deleted"];
+				var tourBreaksArr = item["breaks"];
+				
+					
+				
+				var getAvailablePackageByIdFn = 'getAvailablePackageById('+tp_id+');';
+				
+				var dataEleObj= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" onclick="'+getAvailablePackageByIdFn+'">'
+										+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+											+ ' <h2>' + name + '</h2> '
+											+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
+											+ ' <p><i class="zmdi zmdi-airplanemode-active zmd-fw"></i>' + starting_destination + ' to ' + destination + '</p> '
+											
+											+ ' <p><strong>Description:</strong>' + description + ' </p> '
+											+ ' <p>' + description + ' </p> '
+											+ ' <p><strong>Tour Break Details</strong>: </p> '
+											+ ' <p><strong>Total Tour Breaks</strong>:' + tourBreaksArr.length + ' </p> ';
+											
+											if(tourBreaksArr.length > 0){
+					
+												jQuery.each(tourBreaksArr, function(index, item) {
+													dataEleObj +=' <hr/> ';
+													dataEleObj +=' <p><strong>Break '+(index+1)+' Info</strong>: </p> ';
+													dataEleObj +=' <p>Destination Name :' + item["destination_name"] + ' </p> ';
+													dataEleObj +=' <p>Reaching Time :' + item["reaching_time"] + ' </p> ';
+													dataEleObj +=' <p>Restart Time ' + item["restart_time"] + ' </p> ';
+													dataEleObj +=' <p>' + item["description"] + ' </p> ';
+												});
+											}
+											
+										+ '</a> '
+										
+									dataEleObj += '</li>';
+				$("ul.packages-details-list").append(dataEleObj);			
+			
+		}
+		else {
+			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
+		}
+		hideModal();
+	}
+	
 	function getActiveInfoData(){
 		var mData={};
 		mData["action"] = 'getActiveInfoData';
@@ -924,8 +1005,6 @@ function errorCB(err) {
 		getDataByUrlAndData(appUrl, mData, getActiveInfoDataSuccessCB, commonAppErrorCB, ajaxCallGet);
 		return false;
 	}
-	
-	
 	
 	function getActiveInfoDataSuccessCB(data){
 		var responseJson = jQuery.parseJSON(data);
