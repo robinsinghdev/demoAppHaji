@@ -939,6 +939,8 @@ function errorCB(err) {
 			 
 			var image_path=responseJson["image_path"];
 			
+			$("ul.packages-details-list").empty();
+			
 			var resultObj = responseJson["result"];
 			var item=resultObj;
 			
@@ -958,8 +960,6 @@ function errorCB(err) {
 				var package_status = item["package_status"];
 				var is_deleted = item["is_deleted"];
 				var tourBreaksArr = item["breaks"];
-				
-					
 				
 				var getAvailablePackageByIdFn = 'getAvailablePackageById('+tp_id+');';
 				
@@ -990,7 +990,6 @@ function errorCB(err) {
 										
 									dataEleObj += '</li>';
 				$("ul.packages-details-list").append(dataEleObj);			
-			
 		}
 		else {
 			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
