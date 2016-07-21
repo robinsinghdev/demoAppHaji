@@ -1,5 +1,5 @@
 
-var appName="Ibrahim Pinto";
+var appName="Ibrahim A. Pinto";
 $( document ).on( "mobileinit", function() {
     // Make your jQuery Mobile framework configuration changes here!
 	 $.support.cors = true;
@@ -24,7 +24,7 @@ var leftPanelObj=
 							'<div class="row">'+
 								'<div class="col-xs-12">'+
 									'<div class="box profile-text">'+
-										'<strong>Ibrahim Pinto</strong>'+
+										'<strong>'+ appName +'</strong>'+
 										'<span class="subline">Hajj & Umrah Services</span>'+
 									'</div>'+
 								'</div>'+
@@ -118,7 +118,6 @@ $(document).on("pagechange", function (e, data) {
 	
   var currPage = data.toPage[0].id;
   currentPageTemp=currPage;
-  console.log(currPage);
   if(currPage == 'home-page'){
 	getAvailablePackageList();
   }
@@ -317,7 +316,7 @@ function checkPreAuth() {
 		}
 	}
 	else{
-		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, 'Ibrahim Pinto','Ok');
+		navigator.notification.alert(appRequiresWiFi, exitAppForcefully, appName ,'Ok');
 	}
 }
 
@@ -362,12 +361,12 @@ function handleLogin() {
 		var loginData={};
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			if(window.localStorage["user_logged_in"] ==1) {
-				navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+				navigator.notification.alert(appRequiresWiFi,alertConfirm, appName,'Ok');
 				//checkingUserAssignedRoles();
 				//$.mobile.changePage('#home-page',{ transition: "slideup"});
 			}
 			else{
-				navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+				navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 			}	
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
@@ -438,27 +437,27 @@ function handleLogin() {
 						$.mobile.changePage('#login-page','slide');
 						
 						navigator.notification.alert(responseMessage,		//'Invalid Credentials, please try again.',
-						    alertConfirm, 'Ibrahim Pinto', 'Ok');
+						    alertConfirm, appName, 'Ok');
 					}
 				hideModal();
 			   },
 			   error:function(data,t,f){
 				   hideModal();
-				   navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+				   navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				   var responseJson = $.parseJSON(data);
 				   if(responseJson.status==404){
-					   navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+					   navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 				   }
 			   }
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		$("#submitButton").removeAttr("disabled");
 	}
 	else{
-		navigator.notification.alert('You must enter credentials.', alertConfirm, 'Ibrahim Pinto', 'Ok');
+		navigator.notification.alert('You must enter credentials.', alertConfirm, appName, 'Ok');
 		$("#submitButton").removeAttr("disabled");
 	}
 	return false;
@@ -468,7 +467,7 @@ function showExitDialog() {
     navigator.notification.confirm(
             ("Do you want to Exit?"), // message
             alertexit, // callback
-            'Ibrahim Pinto', // title
+            appName, // title
             'YES,NO' // buttonName
     );
 }
@@ -485,7 +484,7 @@ function doLogout() {
 	var connectionType=checkConnection();
 	//var connectionType="Unknown connection";//For Testing
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-		navigator.notification.alert('Logout requires active internet connection', alertConfirm, 'Ibrahim Pinto', 'Ok');
+		navigator.notification.alert('Logout requires active internet connection', alertConfirm, appName, 'Ok');
 	}
 	else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		showLogoutDialog();
@@ -507,7 +506,7 @@ function showLogoutDialog() {
     navigator.notification.confirm(
             ("Are you sure to Logout?"), // message
             alertlogout, // callback
-            'Ibrahim Pinto', // title
+            appName, // title
             'YES,NO' // buttonName
     );
 }
@@ -633,7 +632,7 @@ function errorCB(err) {
 		//var connectionType="WiFi connection";//For Testing
 		
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			showModal();
@@ -652,7 +651,7 @@ function errorCB(err) {
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -660,7 +659,7 @@ function errorCB(err) {
 		//var connectionType=checkConnection();
 		var connectionType="WiFi connection";//For Testing
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 		else if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 			showModal();
@@ -679,7 +678,7 @@ function errorCB(err) {
 			});
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -692,10 +691,10 @@ function errorCB(err) {
 	
 	function commonErrorCallback(data) {
 	    hideModal();
-		navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+		navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		var responseJson = $.parseJSON(data);
 		if(responseJson.status==404){
-		     navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');
+		     navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
 	}
 	
@@ -761,7 +760,7 @@ function errorCB(err) {
 			}
 			$.mobile.changePage('#common-page','slide');
 		}else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');					
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');					
 		}
 		hideModal();
 	}
@@ -839,7 +838,7 @@ function errorCB(err) {
 			}
 		}
 		else{
-			navigator.notification.alert(appRequiresWiFi,alertConfirm,'Ibrahim Pinto','Ok');					
+			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');					
 		}
 		hideModal();
 	}
@@ -895,13 +894,15 @@ function errorCB(err) {
 					var package_status = item["package_status"];
 					var is_deleted = item["is_deleted"];
 					
+					// &#8377; rupee
+					// &#164; generic
 					var dataEleObj= '<li class="" data-tpid="' + tp_id + '" onclick="getAvailablePackageById(this);">'
 											+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
 												+ ' <h2>' + name + '</h2> '
-												+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
-												+ ' <p><i class="zmdi zmdi-airplanemode-active zmd-fw"></i>' + starting_destination + ' to ' + destination + '</p> '
-												+ ' <p>INR:' + price_inr + ' </p> '
-												+ ' <p><strong>Know More..<i class="zmdi zmdi-airplanemode-active zmd-fw"></i></p> '
+												+ ' <p><span class="icon-span"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + from_date + ' to ' + to_date + ' </p> '
+												+ ' <p><span class="icon-span"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + starting_destination + ' to ' + destination + '</p> '
+												+ ' <p><span class="icon-span"><i class="zmdi zmd-fw">&#8377;</i></span>' + price_inr + ' INR </p> '
+												+ ' <p><span class="icon-span"><i class="zmdi zmdi-info-outline zmd-fw"></i></span><strong>Know More..</p> '
 											+ '</a> '
 										+ '</li>';
 					$("#"+ currentPageTemp + " ul.packages-list").append(dataEleObj);				
@@ -914,14 +915,13 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
+			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
 	
 	function getAvailablePackageById(thiss){
 		var tpid = $(thiss).data("tpid");
-		console.log(""+tpid);
 		var mData={};
 		mData["action"] = 'getAvailablePackageById';
 		mData["s_key"] = window.localStorage["s_key"];
@@ -966,33 +966,79 @@ function errorCB(err) {
 				var dataEleObj= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" onclick="'+getAvailablePackageByIdFn+'">'
 										+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
 											+ ' <h2>' + name + '</h2> '
-											+ ' <p><i class="zmdi zmdi-calendar-note zmd-fw"></i>' + from_date + ' to ' + to_date + ' </p> '
-											+ ' <p><i class="zmdi zmdi-airplanemode-active zmd-fw"></i>' + starting_destination + ' to ' + destination + '</p> '
+											+ ' <p><span class="icon-span"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + from_date + ' to ' + to_date + ' </p> '
+											+ ' <p><span class="icon-span"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + starting_destination + ' to ' + destination + '</p> '
+											+ ' <p><span class="icon-span"><i class="zmdi zmd-fw">&#8377;</i></span>' + price_inr + ' INR </p> '
 											
-											+ ' <p><strong>Description:</strong>' + description + ' </p> '
-											+ ' <p>' + description + ' </p> '
-											+ ' <p><strong>Tour Break Details</strong>: </p> '
-											+ ' <p><strong>Total Tour Breaks</strong>:' + tourBreaksArr.length + ' </p> ';
+											+ ' <p><span class="icon-span"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + description + ' </p> '
 											
 											if(tourBreaksArr.length > 0){
-					
-												jQuery.each(tourBreaksArr, function(index, item) {
-													dataEleObj +=' <hr/> ';
-													dataEleObj +=' <p><strong>Break '+(index+1)+' Info</strong>: </p> ';
-													dataEleObj +=' <p>Destination Name :' + item["destination_name"] + ' </p> ';
-													dataEleObj +=' <p>Reaching Time :' + item["reaching_time"] + ' </p> ';
-													dataEleObj +=' <p>Restart Time ' + item["restart_time"] + ' </p> ';
-													dataEleObj +=' <p>' + item["description"] + ' </p> ';
-												});
-											}
-											
+												+ ' <p><span class="icon-span"><i class="zmdi zmdi-pin-drop zmd-fw"></i></span> Total Tour Breaks:<strong>' + tourBreaksArr.length + ' </strong></p> ';
+											}											
 										+ '</a> '
 										
-									dataEleObj += '</li>';
-				$("ul.packages-details-list").append(dataEleObj);			
+					dataEleObj += '</li>';
+				$("ul.packages-details-list").append(dataEleObj);
+
+				
+				var tourDataEleObj= '<li class="">'+
+									  '<div class="heading">'+
+										'<time>Start Point: '+ starting_destination +'</time> '+
+									  '</div>'+
+									'</li>';
+									
+				if(tourBreaksArr.length > 0){
+					// no-arrow
+					jQuery.each(tourBreaksArr, function(index, item) {
+						tourDataEleObj+='<li class="no-arrow">'+
+										  '<div class="heading">'+
+											'<time>Break Point:'+(index+1)+' '+ item["destination_name"] +'</time> '+
+										  '</div>'+
+										  
+										  '<div class="details">'+
+											'<time>Break Details</time> '+
+											'<p>Reaching Time: '+ item["reaching_time"] + '</p>'+
+											'<p>Restart Time: '+ item["restart_time"] + '</p>'+
+											'<p>Next Destination: '+ item["destination_name"] + '</p>'+
+										  '</div>';
+										  
+						var tourHotelsArr= item["hotels"];		
+console.log(tourHotelsArr.length);						
+						if(tourHotelsArr.length > 0){			  
+							/*
+							jQuery.each(item["hotels"], function(hotelindex, hotelitem) {					
+								tourDataEleObj+='<div class="">'+
+													'<time>Hotel:'+(hotelindex+1)+' '+ hotelitem["name"] +'</time> '+
+												'</div>';
+							});
+							*/
+						}	
+						tourDataEleObj+='</li>';		
+										
+						// tourDataEleObj +=' <hr/> ';
+						// tourDataEleObj +=' <p><strong>Break '+(index+1)+' Info</strong>: </p> ';
+						// tourDataEleObj +=' <p>Destination Name :' + item["destination_name"] + ' </p> ';
+						// tourDataEleObj +=' <p>Reaching Time :' + item["reaching_time"] + ' </p> ';
+						// tourDataEleObj +=' <p>Restart Time ' + item["restart_time"] + ' </p> ';
+						// tourDataEleObj +=' <p>' + item["description"] + ' </p>';
+					});
+				}
+				//tourDataEleObj+='</li>';
+				
+				tourDataEleObj+='<li class="">'+
+									'<div class="heading">'+
+										'<time>Destination: '+ destination +'</time> '+
+									'</div>'+
+								'</li>';
+					
+				$("ul.packages-tour-details").append(tourDataEleObj);
+				
+				
+				
+				
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
+			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
@@ -1050,22 +1096,22 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, 'Ibrahim Pinto','Ok');
+			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
 	
 	function commonAppErrorCB(data){
 		 hideModal();
-		 navigator.notification.alert("Connection Problem" ,alertConfirm,'Ibrahim Pinto','Ok');
+		 navigator.notification.alert("Connection Problem" ,alertConfirm,appName,'Ok');
 		 var responseJson = $.parseJSON(data);
 		 if(responseJson.status==404){
-			navigator.notification.alert("Connection Problem" ,alertConfirm,'Ibrahim Pinto','Ok');
+			navigator.notification.alert("Connection Problem" ,alertConfirm,appName,'Ok');
 		 }
 	}
 	
 	function alertCustomMsg(msg){
-		navigator.notification.alert(msg, alertConfirm, 'Ibrahim Pinto', 'Ok');	
+		navigator.notification.alert(msg, alertConfirm, appName, 'Ok');	
 	}
 	
 	// For iterateAndAppendData
