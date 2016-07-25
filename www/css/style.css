@@ -6,6 +6,8 @@
 	margin: 0 !important;
 }
 
+.st-dashed-border-bottom{border-bottom: 1px dashed #fff;}
+
 /* packages-list */
 
 ul.packages-list-ui{}
@@ -34,6 +36,15 @@ ul.packages-list-ui li a p .icon-span{
 	padding-right: 5px;
 	color: #009688;
 	font-size: 18px;
+}
+
+ul.packages-list-ui li a p .icon-span.medium {
+    font-size: 22px;
+    padding-right: 10px;
+}
+
+ul.packages-list-ui li a p .icon-span-data {
+    font-size: 16px;
 }
 
 ul.packages-list-ui li a p .icon-span i{
@@ -79,15 +90,18 @@ ul.packages-list-ui li a p .icon-span i{
 }
 
 .timeline ul li::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: inherit;
+	font-family: "Material-Design-Iconic-Font";
+	font-size: 23px;
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	background: inherit;
+	line-height: 25px;
 }
 
 .timeline ul li div {
@@ -98,6 +112,15 @@ ul.packages-list-ui li a p .icon-span i{
   background: #F45B69;
 }
 
+.timeline ul li div p {
+    font-size: 15px;
+}
+
+.timeline ul li div i.i-white {
+    color: white;
+    font-size: 25px;
+}
+
 .timeline ul li div.space {
 	background: unset;
 	height: 10px;
@@ -105,7 +128,7 @@ ul.packages-list-ui li a p .icon-span i{
 }
 
 .timeline ul li div.heading {
-	border: 2px dashed #fff;
+	border: 1px dashed #fff;
 }
 
 .timeline ul li div.heading span {

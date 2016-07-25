@@ -944,97 +944,138 @@ function errorCB(err) {
 			var resultObj = responseJson["result"];
 			var item=resultObj;
 			
+			var currImg = image_path + item["mobile_image"];
+			var tp_id = item["tp_id"];
+			var name = item["name"];
+			var from_date = item["from_date"];
+			var to_date = item["to_date"];
+			var booking_open_from = item["booking_open_from"];
+			var booking_open_till = item["booking_open_till"];
+			var starting_destination = item["starting_destination"];
+			var destination = item["destination"];
+			var price_inr = item["price_inr"];					
+			var description = item["description"];
+			var package_status = item["package_status"];
+			var is_deleted = item["is_deleted"];
+			var tourBreaksArr = item["breaks"];
+			var branchesArr = item["branches"];
 				
-				var currImg = image_path + item["mobile_image"];
-				
-				var tp_id = item["tp_id"];
-				var name = item["name"];
-				var from_date = item["from_date"];
-				var to_date = item["to_date"];
-				var booking_open_from = item["booking_open_from"];
-				var booking_open_till = item["booking_open_till"];
-				var starting_destination = item["starting_destination"];
-				var destination = item["destination"];
-				var price_inr = item["price_inr"];					
-				var description = item["description"];
-				var package_status = item["package_status"];
-				var is_deleted = item["is_deleted"];
-				var tourBreaksArr = item["breaks"];
-				
-				var getAvailablePackageByIdFn = 'getAvailablePackageById('+tp_id+');';
-				
-				var dataEleObj= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" onclick="'+getAvailablePackageByIdFn+'">'
-										+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
-											+ ' <h2>' + name + '</h2> '
-											+ ' <p><span class="icon-span"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + from_date + ' to ' + to_date + ' </p> '
-											+ ' <p><span class="icon-span"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + starting_destination + ' to ' + destination + '</p> '
-											+ ' <p><span class="icon-span"><i class="zmdi zmd-fw">&#8377;</i></span>' + price_inr + ' INR </p> '
-											
-											+ ' <p><span class="icon-span"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + description + ' </p> '
-											
-											if(tourBreaksArr.length > 0){
-												+ ' <p><span class="icon-span"><i class="zmdi zmdi-pin-drop zmd-fw"></i></span> Total Tour Breaks:<strong>' + tourBreaksArr.length + ' </strong></p> ';
-											}											
-										+ '</a> '
+			// var getAvailablePackageByIdFn = 'getAvailablePackageById('+tp_id+');';
+			var dataEleObj= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" >'
+									+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+										+ ' <h2>' + name + '</h2> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + '<span class="icon-span-data">'+from_date + ' to ' + to_date + ' </span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + '<span class="icon-span-data">'+ starting_destination + ' to ' + destination + '</span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">'+ price_inr + ' INR </span></p> '
 										
-					dataEleObj += '</li>';
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + '<span class="icon-span-data">'+ description + ' </span> </p> '
+										
+										if(tourBreaksArr.length > 0){
+											+ ' <p><span class="icon-span"><i class="zmdi zmdi-pin-drop zmd-fw"></i></span><span class="icon-span-data"> Total Tour Breaks:<strong>' + tourBreaksArr.length + ' </strong> </span></p> ';
+										}											
+									+ '</a> '							
+								+ '</li>';
+			if(branchesArr.length > 0){
+				
+					dataEleObj+= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" >'
+										+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+											+ ' <h2>Our Branches</h2> ';
+											
+						jQuery.each(branchesArr, function(branchesIndex, branchesItem) {
+								
+							dataEleObj+= '<p>'
+											+ '<span class="icon-span medium"><i class="zmdi zmdi-collection-item-'+(branchesIndex+1)+'  zmdi-hc-fw"></i></span>' 
+											+ '<span class="icon-span-data">'+ branchesItem["branch_name"] + ' </span>'
+										+ '</p> '
+										+ '<p>'
+											+ '<span class="icon-span medium"><i class="zmdi zmdi-markunread-mailbox zmd-fw"></i></span>' 
+											+ '<span class="icon-span-data">'
+												+ branchesItem["address_1"] + ', ' 
+												+ branchesItem["address_2"] + ', ' 
+												+ branchesItem["district"] +  ', ' 
+												+ branchesItem["city"] +  ', ' 
+												+ branchesItem["pincode"] 
+											+ '</span>'
+										+ '</p>'
+										+ '<hr>';
+						});			
+										
+					dataEleObj += '</a></li>';		
+				}	
+					
 				$("ul.packages-details-list").append(dataEleObj);
 
-				
 				var tourDataEleObj= '<li class="">'+
 									  '<div class="heading">'+
-										'<time>Start Point: '+ starting_destination +'</time> '+
+										'<i class="zmdi zmdi-pin zmdi-hc-fw i-white"></i>Start Point: <strong>'+ starting_destination +'</strong> '+
 									  '</div>'+
 									'</li>';
 									
 				if(tourBreaksArr.length > 0){
 					// no-arrow
 					jQuery.each(tourBreaksArr, function(index, item) {
+						var tourHotelsArr= item["hotels"];	
+						var arrowClass="";
+						if(tourHotelsArr.length > 0){
+							arrowClass="plain";
+						}
+					
 						tourDataEleObj+='<li class="no-arrow">'+
 										  '<div class="heading">'+
-											'<time>Break Point:'+(index+1)+' '+ item["destination_name"] +'</time> '+
+											'<i class="zmdi zmdi-pin-drop zmdi-hc-fw i-white"></i>Break Point'+(index+1)+': <strong>'+ item["destination_name"] +'</strong> '+
 										  '</div>'+
 										  
-										  '<div class="details">'+
-											'<time>Break Details</time> '+
-											'<p>Reaching Time: '+ item["reaching_time"] + '</p>'+
-											'<p>Restart Time: '+ item["restart_time"] + '</p>'+
-											'<p>Next Destination: '+ item["destination_name"] + '</p>'+
+										  '<div class=" '+arrowClass+' st-dashed-border-bottom">'+
+											'<i class="zmdi zmdi-assignment zmdi-hc-fw i-white"></i>Break Details '+
+											'<p><i class="zmdi zmdi-alarm-check zmdi-hc-fw i-white"></i> Arrival: '+ item["reaching_time"] + '</p>'+
+											'<p><i class="zmdi zmdi-alarm-check zmdi-hc-fw i-white"></i> Departure: '+ item["restart_time"] + '</p>'+
+											'<p><i class="zmdi zmdi-navigation zmdi-hc-fw i-white"></i> Next Destination: '+ item["destination_name"] + '</p>'+
 										  '</div>';
-										  
-						var tourHotelsArr= item["hotels"];		
-console.log(tourHotelsArr.length);						
-						if(tourHotelsArr.length > 0){			  
-							/*
-							jQuery.each(item["hotels"], function(hotelindex, hotelitem) {					
-								tourDataEleObj+='<div class="">'+
-													'<time>Hotel:'+(hotelindex+1)+' '+ hotelitem["name"] +'</time> '+
-												'</div>';
+							
+						if(tourHotelsArr.length > 0){	
+							tourDataEleObj+='<div class="st-dashed-border-bottom">'+
+													'<i class="zmdi zmdi-hotel zmdi-hc-fw i-white"></i>Hotel Details ' +
+													'<p><i class="zmdi zmdi-info-outline zmdi-hc-fw i-white"></i> No. of hotels: '+ tourHotelsArr.length + '</p>'+
+											'</div>';	
+							
+							jQuery.each(tourHotelsArr, function(hotelindex, hotelitem) {	
+								/*
+								
+								tourDataEleObj+= '<div class="plain st-dashed-border-bottom">'+
+													'<i class="zmdi zmdi-hotel zmdi-hc-fw i-white"></i>Hotel Details '+ hotelindex ;
+													
+													
+													tourDataEleObj+= '<p><i class="zmdi zmdi-alarm-check zmdi-hc-fw i-white"></i> Rating: '+ item["star_rating"] + 'Stars</p>';
+													
+													if(item["address"] != ""){
+														tourDataEleObj+= '<p><i class="zmdi zmdi-alarm-check zmdi-hc-fw i-white"></i> Address: '+ item["address"] + '</p>' ;
+													}
+													
+													tourDataEleObj+= '<p><i class="zmdi zmdi-alarm-check zmdi-hc-fw i-white"></i> Contact: '+ item["phone_number1"] + ', '+ item["phone_number2"] + '</p>'+
+													'<p><i class="zmdi zmdi-navigation zmdi-hc-fw i-white"></i> Email: '+ item["email"] + '</p>' ;													
+												
+													if(item["address"] != ""){
+														tourDataEleObj+= '<p><i class="zmdi zmdi-navigation zmdi-hc-fw i-white"></i> Website: '+ item["website"] + '</p>' ;
+													}
+													
+								tourDataEleObj+= '</div>';
+								
+								*/
 							});
-							*/
+							
 						}	
 						tourDataEleObj+='</li>';		
 										
-						// tourDataEleObj +=' <hr/> ';
-						// tourDataEleObj +=' <p><strong>Break '+(index+1)+' Info</strong>: </p> ';
-						// tourDataEleObj +=' <p>Destination Name :' + item["destination_name"] + ' </p> ';
-						// tourDataEleObj +=' <p>Reaching Time :' + item["reaching_time"] + ' </p> ';
-						// tourDataEleObj +=' <p>Restart Time ' + item["restart_time"] + ' </p> ';
-						// tourDataEleObj +=' <p>' + item["description"] + ' </p>';
 					});
 				}
-				//tourDataEleObj+='</li>';
 				
 				tourDataEleObj+='<li class="">'+
 									'<div class="heading">'+
-										'<time>Destination: '+ destination +'</time> '+
+										'<time><i class="zmdi zmdi-pin zmdi-hc-fw i-white"></i>Destination: '+ destination +'</time> '+
 									'</div>'+
 								'</li>';
 					
 				$("ul.packages-tour-details").append(tourDataEleObj);
-				
-				
-				
 				
 		}
 		else {
