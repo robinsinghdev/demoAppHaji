@@ -190,7 +190,7 @@ var app = {
 		//db.transaction(initializeDB, errorCB, successCB);
 		
 		//checkPreAuth();
-        // $("#loginForm").on("submit",handleLogin);
+        $("#loginForm").on("submit",showMyBookingInfo);
     },
 };
 
@@ -915,7 +915,7 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
+			navigator.notification.alert('Data retrieval fail.', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
@@ -1079,7 +1079,7 @@ function errorCB(err) {
 				
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
+			navigator.notification.alert('Data retrieval fail.', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
@@ -1091,7 +1091,7 @@ function errorCB(err) {
 		getDataByUrlAndData(appUrl, mData, getActiveInfoDataSuccessCB, commonAppErrorCB, ajaxCallGet);
 		return false;
 	}
-	
+		
 	function getActiveInfoDataSuccessCB(data){
 		var responseJson = jQuery.parseJSON(data);
 		var ajaxStatus = responseJson["status"];
@@ -1137,10 +1137,155 @@ function errorCB(err) {
 			}
 		}
 		else {
-			navigator.notification.alert('Please input correct institute code', alertConfirm, appName,'Ok');
+			navigator.notification.alert('Data retrieval fail.', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
+	
+	var booking_code_global="";
+	function showMyBookingInfo(){
+		var $loginForm=$("#loginForm");
+		var booking_code=$loginForm.find("#username").val();
+		var booking_pass=$loginForm.find("#password").val();
+		
+		if( booking_code!="" && booking_pass!=""){
+			var mData={};
+			mData["action"] = 'showMyBookingInfo';
+			mData["s_key"] = window.localStorage["s_key"];
+			booking_code='jp2AdFZm';
+			booking_pass='UxuHhWTJ';
+			mData["booking_code"] = booking_code;
+			mData["booking_pass"] = booking_pass;
+			
+			booking_code_global=booking_code;
+			getDataByUrlAndData(appUrl, mData, showMyBookingInfoSuccessCB, commonAppErrorCB, ajaxCallPost);
+			return false;
+		}
+		else{
+			navigator.notification.alert('You must enter credentials.', alertConfirm, appName, 'Ok');
+		}
+	}
+	
+	function showMyBookingInfoSuccessCB(data){
+		var $bookingDetailsPage=$("#booking-details-page");
+		var responseJson = jQuery.parseJSON(data);
+		var ajaxStatus = responseJson["status"];		
+		
+		if(ajaxStatus == true){
+			$.mobile.changePage('#booking-details-page','slide');
+			
+			var bookingObj = responseJson["booking"];
+			var item=bookingObj;
+			
+			var package_name = item["package_name"];			
+			var package_desc = item["package_desc"];
+			var starting_dest = item["starting_dest"];
+			var destination = item["destination"];
+			var final_price = item["final_price"];
+			var deal_price = item["deal_price"];
+			var paid_total = item["paid_total"];
+			
+			var booking_status = item["booking_status"];
+			var group_size = item["group_size"];
+			var create_timestamp = item["create_timestamp"];
+			
+			var customersArr = item["customers"];
+			
+			var paymentsArr = item["payments"];
+			
+			$bookingDetailsPage.find(".booking-header-div .booking_code").html(booking_code_global);
+			$bookingDetailsPage.find(".booking-header-div .booking_status").html(booking_status);
+			$bookingDetailsPage.find("ul.booking-details-list").empty();
+			
+			var dataEleObj= '<li class="">'
+									+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
+										+ ' <h2>' + package_name + '</h2> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + '<span class="icon-span-data">'+ starting_dest + ' to ' + destination + '</span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Deal Prize:'+ deal_price + ' INR </span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Final Prize:'+ final_price + ' INR </span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Paid Total:'+ paid_total + ' INR </span></p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + '<span class="icon-span-data">'+ package_desc + ' </span> </p> '
+										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-accounts-alt zmd-fw"></i></span> ' + '<span class="icon-span-data">Passengers: '+ group_size + ' </span> </p> '
+									+ '</a> '							
+							+ '</li>';
+					
+				$bookingDetailsPage.find("ul.booking-details-list").append(dataEleObj);
+
+				var customersEleObj= '';
+									
+				if(customersArr.length > 0){
+					
+					jQuery.each(customersArr, function(custIndex, custItem) {
+					
+						var customer_id = custItem["customer_id"];			
+						var name = custItem["first_name"] + custItem["middle_name"] + custItem["last_name"]  ;
+						var gender = custItem["gender"];	
+						var passport_number = custItem["passport_number"];	
+						var passport_valid_date = custItem["passport_valid_date"];	
+						var visa_number = custItem["visa_number"];	
+						var visa_valid_date = custItem["visa_valid_date"];	
+						var address_1 = custItem["address_1"];	
+						var address_2 = custItem["address_2"];	
+						var country_id = custItem["country_id"];	
+						var state_id = custItem["state_id"];	
+						var district = custItem["district"];	
+						var city = custItem["city"];	
+						var pincode = custItem["pincode"];	
+						
+						var is_leader = custItem["is_leader"];					
+						var photo = custItem["photo"];	
+						
+						var create_timestamp = custItem["create_timestamp"];	
+						var update_timestamp = custItem["update_timestamp"];	
+						
+						customersEleObj+= 	'<div class="nd2-card"> '+
+												'<div class="card-title has-avatar" onclick="showCustInfoTemp();"> '+
+													'<img src="#" class="card-avatar"> '+
+													'<h3 class="card-primary-title">'+ name +'</h3> '+
+													'<h5 class="card-subtitle">'+ gender +'</h5> '+
+												'</div> '+
+												'<div class="card-supporting-text"> '+
+													'<ul data-role="listview" data-icon="false" class="hpdiv packages-list-ui  animated fadeInDown ui-listview">'+
+															'<li class="">'
+																+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">';
+												if(is_leader=="1"){
+													customersEleObj+=  ' <h2>Leader</h2> ';
+												}				
+																
+												customersEleObj+= ' <p><span class="icon-span medium"><i class="zmdi zmdi-account-box-o zmd-fw"></i></span>' + '<span class="icon-span-data">PP No.: '+ passport_number + '</span></p> '
+																+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + '<span class="icon-span-data">Passport Date:'+ passport_valid_date + ' </span></p> '
+																+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-confirmation-number zmd-fw"></i></span>' + '<span class="icon-span-data">Visa No.:'+ visa_number + ' </span></p> '
+																+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + '<span class="icon-span-data">Visa Date:'+ visa_valid_date + '</span></p> '
+																+ ' <p>'
+																	+'<span class="icon-span medium"><i class="zmdi zmdi-markunread-mailbox zmd-fw"></i></span> ' 
+																	+ '<span class="icon-span-data">'
+																		+ address_1 + ', '
+																		+ address_2 + ', ' 
+																		+ district + ', ' 
+																		+ city + ', ' 
+																		+ pincode 
+																	+ ' </span> '
+																+'</p> '
+															+ '</a> '							
+														+ '</li>';
+													'</ul> '+
+												'</div> '+
+											'</div> ';		
+					});
+				}else{
+					
+				}				
+				$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);
+				
+		}
+		else {
+			$.mobile.changePage('#booking-details-page','slide');
+			navigator.notification.alert('Data retrieval fail.', alertConfirm, appName,'Ok');
+		}
+		hideModal();
+	}
+	
+	
 	
 	function commonAppErrorCB(data){
 		 hideModal();
@@ -1213,14 +1358,3 @@ function errorCB(err) {
 		$(".full-chairman-msg-para").show();
 		$(".full-chairman-msg-btn-div").hide();
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
