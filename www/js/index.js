@@ -1152,8 +1152,8 @@ function errorCB(err) {
 			var mData={};
 			mData["action"] = 'showMyBookingInfo';
 			mData["s_key"] = window.localStorage["s_key"];
-			booking_code='jp2AdFZm';
-			booking_pass='UxuHhWTJ';
+			booking_code='cZUzby6Q';
+			booking_pass='SELYFK3q';
 			mData["booking_code"] = booking_code;
 			mData["booking_pass"] = booking_pass;
 			
@@ -1198,20 +1198,23 @@ function errorCB(err) {
 			$bookingDetailsPage.find("ul.booking-details-list").empty();
 			
 			var dataEleObj= '<li class="">'
-									+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
-										+ ' <h2>' + package_name + '</h2> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + '<span class="icon-span-data">'+ starting_dest + ' to ' + destination + '</span></p> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Deal Prize:'+ deal_price + ' INR </span></p> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Final Prize:'+ final_price + ' INR </span></p> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Paid Total:'+ paid_total + ' INR </span></p> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + '<span class="icon-span-data">'+ package_desc + ' </span> </p> '
-										+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-accounts-alt zmd-fw"></i></span> ' + '<span class="icon-span-data">Passengers: '+ group_size + ' </span> </p> '
-									+ '</a> '							
+								+ '<a href="#" class="ui-btn waves-effect">'
+									+ ' <h2>' + package_name + '</h2> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-airplanemode-active zmd-fw"></i></span>' + '<span class="icon-span-data">'+ starting_dest + ' to ' + destination + '</span></p> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Deal Prize:'+ deal_price + ' INR </span></p> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Final Prize:'+ final_price + ' INR </span></p> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmd-fw">&#8377;</i></span>' + '<span class="icon-span-data">Paid Total:'+ paid_total + ' INR </span></p> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-info-outline zmd-fw"></i></span> ' + '<span class="icon-span-data">'+ package_desc + ' </span> </p> '
+									+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-accounts-alt zmd-fw"></i></span> ' + '<span class="icon-span-data">Passengers: '+ group_size + ' </span> </p> '
+								+ '</a> '							
 							+ '</li>';
 					
 				$bookingDetailsPage.find("ul.booking-details-list").append(dataEleObj);
 
 				var customersEleObj= '';
+				customersEleObj+= 	'<h3 class="st-boder-dashed-top" >Passengers Details</h3>';
+				$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);							
+											
 									
 				if(customersArr.length > 0){
 					
@@ -1238,19 +1241,19 @@ function errorCB(err) {
 						var create_timestamp = custItem["create_timestamp"];	
 						var update_timestamp = custItem["update_timestamp"];	
 						
-						customersEleObj+= 	'<div class="nd2-card"> '+
-												'<div class="card-title has-avatar" onclick="showCustInfoTemp();"> '+
-													'<img src="#" class="card-avatar"> '+
+						customersEleObj= 	'<div class="nd2-card st-border-sides st-teal"> '+
+												'<div class="card-title " onclick="showCustInfoTemp();"> '+
+													//'<img src="#" class="card-avatar"> '+
 													'<h3 class="card-primary-title">'+ name +'</h3> '+
 													'<h5 class="card-subtitle">'+ gender +'</h5> '+
 												'</div> '+
-												'<div class="card-supporting-text"> '+
+												'<div class="card-supporting-text " style="display:none;"> '+
 													'<ul data-role="listview" data-icon="false" class="hpdiv packages-list-ui  animated fadeInDown ui-listview">'+
-															'<li class="">'
-																+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">';
+															'<li class="">' +
+																'<a href="#" class="ui-btn">';
 												if(is_leader=="1"){
 													customersEleObj+=  ' <h2>Leader</h2> ';
-												}				
+												}
 																
 												customersEleObj+= ' <p><span class="icon-span medium"><i class="zmdi zmdi-account-box-o zmd-fw"></i></span>' + '<span class="icon-span-data">PP No.: '+ passport_number + '</span></p> '
 																+ ' <p><span class="icon-span medium"><i class="zmdi zmdi-calendar-note zmd-fw"></i></span>' + '<span class="icon-span-data">Passport Date:'+ passport_valid_date + ' </span></p> '
@@ -1267,16 +1270,46 @@ function errorCB(err) {
 																	+ ' </span> '
 																+'</p> '
 															+ '</a> '							
-														+ '</li>';
-													'</ul> '+
-												'</div> '+
+														+ '</li>'
+													+'</ul> '
+												+'</div> '
 											'</div> ';		
+						
+						$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);		
 					});
 				}else{
 					
-				}				
-				$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);
+				}	
 				
+				customersEleObj= 	'<h3 class="st-boder-dashed-top" style=" text-align: center;">Payment Details</h3>';
+				$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);							
+
+				if(paymentsArr.length > 0){
+					
+					jQuery.each(paymentsArr, function(paymentIndex, paymentItem) {
+					
+						var booking_payment_id = paymentItem["booking_payment_id"];			
+						var booking_id = paymentItem["booking_id"];	
+						var payment_type = paymentItem["payment_type"];	
+						var amount = paymentItem["amount"];	
+						var payment_detail = paymentItem["payment_detail"];						
+						var create_timestamp = paymentItem["create_timestamp"];	
+						var update_timestamp = paymentItem["update_timestamp"];	
+						
+						customersEleObj= 	'<div class="nd2-card st-border-sides st-light-blue"> '+
+												'<div class="card-title" onclick="showCustInfoTemp();"> '+
+													//'<img src="#" class="card-avatar"> '+
+													'<h3 class="card-primary-title">'+ amount +'</h3> '+
+													'<h5 class="card-subtitle">'+ payment_type +'</h5> '+
+												'</div> '+
+											'</div> ';	
+						$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);							
+					});
+				}else{
+					
+				}
+				
+				//$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);
 		}
 		else {
 			$.mobile.changePage('#booking-details-page','slide');

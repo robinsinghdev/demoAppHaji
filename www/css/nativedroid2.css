@@ -1396,12 +1396,35 @@ html >body .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child 
 	padding: 24px 16px;
 }
 
+.nd2-card.st-border-sides{
+	margin: 0 0 10px !important;
+}
+
+.nd2-card.st-border-sides.st-teal{
+	border-left: 5px solid #009688;
+    border-right: 5px solid #009688;
+}
+.nd2-card.st-border-sides.st-light-blue{
+	border-left: 5px solid #3e8de7;
+    border-right: 5px solid #3e8de7;
+}
+
 .nd2-card.card-media-right.card-media-small .card-title { min-height: 56px; }
 .nd2-card.card-media-right.card-media-medium .card-title { min-height: 88px; }
 .nd2-card.card-media-right.card-media-large .card-title {  min-height: 128px;  }
 
 .nd2-card .card-title.has-supporting-text {
 	padding: 24px 16px 16px 16px;
+}
+
+.st-boder-dashed-top {
+    border-top: 2px dashed #009688;
+    padding-top: 15px;
+	text-align: center;
+}
+
+.nd2-card .card-title.st-boder-dashed, .st-boder-dashed {
+	border: 1px dashed #009688;
 }
 
 .nd2-card .card-title .card-primary-title {
