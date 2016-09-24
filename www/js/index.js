@@ -58,6 +58,7 @@ var leftPanelObj=
 							'</ul>'+
 						'</div>';
 
+var connectionType;						
 var ajaxCallGet = "GET";
 var ajaxCallPost = "POST";
 var ajaxCallUnset = "GET";
@@ -201,8 +202,8 @@ function onNotification(e) {
 				// here is where you might want to send it the regID for later use.
 				//console.log("regID = " + e.regid);
 				window.localStorage["gcmregistrationId"] = e.regid;
-				$(".tempGCMId").html( window.localStorage["gcmregistrationId"] );
 				
+				// $(".tempGCMId").html( window.localStorage["gcmregistrationId"] ); //For testing				
 				if(window.localStorage["gcmregistrationId"] != "" && window.localStorage["isgcmregistered"]==0){
 					registerAppId();
 				}
@@ -220,7 +221,8 @@ function onNotification(e) {
 				// otherwise we were launched because the user touched a notification in the notification tray.
 				if (e.coldstart){}
 					//console.log("COLDSTART NOTIFICATION");
-				else{}
+				else{
+				}
 					//console.log("BACKGROUND NOTIFICATION");
 			}
         	var dataNotifyObj = '<li>'+
@@ -234,9 +236,11 @@ function onNotification(e) {
 										'</div>'+
 									'</div>'+	
 								'</li>';
+								
 			var $notificationUlObj = $("#notification-page").find("ul.st_notification_list");
         	$notificationUlObj.append(dataNotifyObj);
         	
+			$.mobile.changePage('#notification-page','slide');
 			/*
         	var currentNotificationCount = $(".notification-count-link span").html();
         	var currentNotificationCountNew = parseInt(currentNotificationCount) + 1;
@@ -297,7 +301,6 @@ function onBackKeyDown() {
    }
 }
 
-var connectionType;
 function checkConnection() {
 	//connectionType="WiFi connection";//For Testing
 	//return connectionType;
@@ -1447,11 +1450,9 @@ function errorCB(err) {
 		hideModal();
 		var responseJson = jQuery.parseJSON(data);
 		var ajaxStatus = responseJson["status"];
-		alert("ajaxStatus--"+ajaxStatus);	
 		
 		if(ajaxStatus == "success"){
 			window.localStorage["isgcmregistered"] = 1;
-			navigator.notification.alert(window.localStorage["isgcmregistered"] + "----" + window.localStorage["gcmregistrationId"], alertConfirm, appName, 'Ok');
 		}
 	}
 	
