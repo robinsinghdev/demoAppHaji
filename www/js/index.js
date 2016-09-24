@@ -183,10 +183,6 @@ var app = {
 			txt+="Error description: " + err.message + "\n\n"; 
 			console.log(txt); 
 		}
-		
-		if(window.localStorage["isgcmregistered"]==0){
-			registerAppId();
-		}
         
 		//db = window.sqlitePlugin.openDatabase({name: "stims.db", location: 2});
 		//db.transaction(initializeDB, errorCB, successCB);
@@ -205,9 +201,11 @@ function onNotification(e) {
 				// here is where you might want to send it the regID for later use.
 				//console.log("regID = " + e.regid);
 				window.localStorage["gcmregistrationId"] = e.regid;
-				alert(window.localStorage["gcmregistrationId"]);
+				$(".tempGCMId").html( window.localStorage["gcmregistrationId"] );
 				
-				registerAppId();
+				if(window.localStorage["gcmregistrationId"] != "" && window.localStorage["isgcmregistered"]==0){
+					registerAppId();
+				}
 			}
         break;
         
@@ -1441,7 +1439,7 @@ function errorCB(err) {
 			return false;
 		}
 		else{
-			navigator.notification.alert('Error while updating app id, close app and restart.', alertConfirm, appName, 'Ok');
+			//navigator.notification.alert('Error while updating app id, close app and restart.', alertConfirm, appName, 'Ok');
 		}
 	}
 	
@@ -1451,6 +1449,7 @@ function errorCB(err) {
 		
 		if(ajaxStatus == false){
 			window.localStorage["isgcmregistered"] = 1;
+			navigator.notification.alert(window.localStorage["isgcmregistered"] + "----" + window.localStorage["gcmregistrationId"], alertConfirm, appName, 'Ok');
 		}
 	}
 	
