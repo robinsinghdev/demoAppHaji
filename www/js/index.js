@@ -303,7 +303,7 @@ function onBackKeyDown() {
 
 function checkConnection() {
 	//connectionType="WiFi connection";//For Testing
-	//return connectionType;
+	//return connectionType;//For Testing
 
     var networkState = navigator.connection.type;
     var states = {};
@@ -1015,6 +1015,8 @@ function errorCB(err) {
 				}	
 				
 				$("ul.packages-details-list").append(dataEleObj);
+				
+				$("ul.packages-tour-details").empty();
 
 				var tourDataEleObj= '<li class="">'+
 									  '<div class="heading">'+
@@ -1027,10 +1029,6 @@ function errorCB(err) {
 					jQuery.each(tourBreaksArr, function(index, item) {
 						var tourHotelsArr= item["hotels"];	
 						var arrowClass="";
-						
-						console.log("tourHotelsArr");
-						console.log("tourHotelsArr length" + tourHotelsArr.length);
-
 						
 						if(dataTypeCheckJSON(tourHotelsArr)=='Array' && tourHotelsArr.length > 0){
 							arrowClass="plain";
