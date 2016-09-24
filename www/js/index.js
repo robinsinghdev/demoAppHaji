@@ -138,10 +138,6 @@ $(document).on("pageinit", function () {
     // }
 });
 
-
-
-//var appUrl='http://192.168.1.11:8080/Edit/appEntry.do';
-//var appUrl='http://122.166.218.28:8080/Edit/appEntry.do';
 var appUrl = 'http://ibrahimpinto.stavyah.com/app/mobile/';
 window.localStorage["appUrl"] = appUrl;
 window.localStorage["s_key"] = 'anBPRUhxbnpHZjJiOXRHZ1JNNWhqdz09';
@@ -171,26 +167,32 @@ var app = {
     // Phonegap is now ready...
     onDeviceReady: function() {
         document.addEventListener("backbutton", onBackKeyDown, false);
+		
+		window.localStorage["isgcmregistered"] = 0;
+		window.localStorage["gcmregistrationId"]="";
         if(window.localStorage["gcmregistrationId"] === undefined ) {
 			window.localStorage["gcmregistrationId"] = "";
 		}
 		pushNotification = window.plugins.pushNotification;
 		try{
         	pushNotification = window.plugins.pushNotification;
-        	pushNotification.register(successHandler, errorHandler, {"senderID":"329763220550","ecb":"onNotification"});		// required!
-			
+        	pushNotification.register(successHandler, errorHandler, {"senderID":"329763220550","ecb":"onNotification"});//required!			
         }
 		catch(err){
 			var txt="There was an error on this page.\n\n";
 			txt+="Error description: " + err.message + "\n\n"; 
 			console.log(txt); 
 		}
+		
+		if(window.localStorage["isgcmregistered"]==0){
+			registerAppId();
+		}
         
 		//db = window.sqlitePlugin.openDatabase({name: "stims.db", location: 2});
 		//db.transaction(initializeDB, errorCB, successCB);
 		
 		//checkPreAuth();
-        $("#loginForm").on("submit",showMyBookingInfo);
+        // $("#loginForm").on("submit",showMyBookingInfo);
     },
 };
 
@@ -201,8 +203,11 @@ function onNotification(e) {
 			if ( e.regid.length > 0 ){
 				// Your GCM push server needs to know the regID before it can push to this device
 				// here is where you might want to send it the regID for later use.
-				console.log("regID = " + e.regid);
+				//console.log("regID = " + e.regid);
 				window.localStorage["gcmregistrationId"] = e.regid;
+				alert(window.localStorage["gcmregistrationId"]);
+				
+				registerAppId();
 			}
         break;
         
@@ -231,13 +236,16 @@ function onNotification(e) {
 										'</div>'+
 									'</div>'+	
 								'</li>';
-			var $notificationUlObj = $("#notification-page").find("ul.features_list_detailed");
+			var $notificationUlObj = $("#notification-page").find("ul.st_notification_list");
         	$notificationUlObj.append(dataNotifyObj);
         	
+			/*
         	var currentNotificationCount = $(".notification-count-link span").html();
         	var currentNotificationCountNew = parseInt(currentNotificationCount) + 1;
         	$(".notification-count-link span").html(currentNotificationCountNew);
-        	$(".notification-count-link").show();        	
+        	$(".notification-count-link").show();  
+			*/
+			
 			//console.log(e.payload.message+"---"+e.payload.msgcnt);
             //android only
         	break;
@@ -291,7 +299,11 @@ function onBackKeyDown() {
    }
 }
 
+var connectionType;
 function checkConnection() {
+	//connectionType="WiFi connection";//For Testing
+	//return connectionType;
+
     var networkState = navigator.connection.type;
     var states = {};
     states[Connection.UNKNOWN]  = 'Unknown connection';
@@ -306,7 +318,7 @@ function checkConnection() {
 }
 
 function checkPreAuth() {
-	var connectionType=checkConnection();
+	connectionType=checkConnection();
 	if(connectionType=="WiFi connection" || connectionType=="Cell 4G connection" || connectionType=="Cell 3G connection" || connectionType=="Cell 2G connection"){
 		var form = $("#loginForm");
 		if(window.localStorage["username"] != undefined && window.localStorage["password"] != undefined && window.localStorage.getItem("user_logged_in")==1) {
@@ -355,8 +367,7 @@ function handleLogin() {
 	//p='admin'; // parent
 	
 	if(u != '' && p!= '') {
-		var connectionType=checkConnection();
-		//var connectionType="WiFi connection";//For Testing
+		connectionType=checkConnection();
 		
 		var loginData={};
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
@@ -481,8 +492,7 @@ function alertexit(button){
 }
 
 function doLogout() {
-	var connectionType=checkConnection();
-	//var connectionType="Unknown connection";//For Testing
+	connectionType=checkConnection();
 	if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 		navigator.notification.alert('Logout requires active internet connection', alertConfirm, appName, 'Ok');
 	}
@@ -628,8 +638,7 @@ function errorCB(err) {
 /*  ------------------- Function/Module Wise Code(For Parents/Student) Starts -------------------------  */
 
 	function getDataByAction(actionName, mDataJsonString, successCallbackFn, errorCallbackFn) {
-		var connectionType=checkConnection();
-		//var connectionType="WiFi connection";//For Testing
+		connectionType=checkConnection();
 		
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
@@ -656,8 +665,7 @@ function errorCB(err) {
 	}
 	
 	function getDataByUrlAndData(url, data, successCallbackFn, errorCallbackFn, ajaxCallType) {
-		//var connectionType=checkConnection();
-		var connectionType="WiFi connection";//For Testing
+		connectionType=checkConnection();
 		if(connectionType=="Unknown connection" || connectionType=="No network connection"){
 			navigator.notification.alert(appRequiresWiFi,alertConfirm,appName,'Ok');
 		}
@@ -944,6 +952,8 @@ function errorCB(err) {
 			var resultObj = responseJson["result"];
 			var item=resultObj;
 			
+			
+			
 			var currImg = image_path + item["mobile_image"];
 			var tp_id = item["tp_id"];
 			var name = item["name"];
@@ -958,7 +968,7 @@ function errorCB(err) {
 			var package_status = item["package_status"];
 			var is_deleted = item["is_deleted"];
 			var tourBreaksArr = item["breaks"];
-			var branchesArr = item["branches"];
+			var branchesArr = item["branches"];			
 				
 			// var getAvailablePackageByIdFn = 'getAvailablePackageById('+tp_id+');';
 			var dataEleObj= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" >'
@@ -975,8 +985,8 @@ function errorCB(err) {
 										}											
 									+ '</a> '							
 								+ '</li>';
-			if(branchesArr.length > 0){
-				
+			
+			if(dataTypeCheckJSON(branchesArr)=='Array' && branchesArr.length > 0){
 					dataEleObj+= '<li class="" data-tpid="' + tp_id + '" tpid="' + tp_id + '" >'
 										+ '<a href="#" class="ui-btn waves-effect waves-button waves-effect waves-button">'
 											+ ' <h2>Our Branches</h2> ';
@@ -1002,21 +1012,26 @@ function errorCB(err) {
 										
 					dataEleObj += '</a></li>';		
 				}	
-					
+				
 				$("ul.packages-details-list").append(dataEleObj);
 
 				var tourDataEleObj= '<li class="">'+
 									  '<div class="heading">'+
 										'<i class="zmdi zmdi-pin zmdi-hc-fw i-white"></i>Start Point: <strong>'+ starting_destination +'</strong> '+
 									  '</div>'+
-									'</li>';
-									
+									'</li>';										
+										
 				if(tourBreaksArr.length > 0){
 					// no-arrow
 					jQuery.each(tourBreaksArr, function(index, item) {
 						var tourHotelsArr= item["hotels"];	
 						var arrowClass="";
-						if(tourHotelsArr.length > 0){
+						
+						console.log("tourHotelsArr");
+						console.log("tourHotelsArr length" + tourHotelsArr.length);
+
+						
+						if(dataTypeCheckJSON(tourHotelsArr)=='Array' && tourHotelsArr.length > 0){
 							arrowClass="plain";
 						}
 					
@@ -1032,7 +1047,7 @@ function errorCB(err) {
 											'<p><i class="zmdi zmdi-navigation zmdi-hc-fw i-white"></i> Next Destination: '+ item["destination_name"] + '</p>'+
 										  '</div>';
 							
-						if(tourHotelsArr.length > 0){	
+						if(dataTypeCheckJSON(tourHotelsArr)=='Array' && tourHotelsArr.length > 0){	
 							tourDataEleObj+='<div class="st-dashed-border-bottom">'+
 													'<i class="zmdi zmdi-hotel zmdi-hc-fw i-white"></i>Hotel Details ' +
 													'<p><i class="zmdi zmdi-info-outline zmdi-hc-fw i-white"></i> No. of hotels: '+ tourHotelsArr.length + '</p>'+
@@ -1247,7 +1262,7 @@ function errorCB(err) {
 													'<h3 class="card-primary-title">'+ name +'</h3> '+
 													'<h5 class="card-subtitle">'+ gender +'</h5> '+
 												'</div> '+
-												'<div class="card-supporting-text " style="display:none;"> '+
+												'<div class="card-supporting-text " > '+
 													'<ul data-role="listview" data-icon="false" class="hpdiv packages-list-ui  animated fadeInDown ui-listview">'+
 															'<li class="">' +
 																'<a href="#" class="ui-btn">';
@@ -1312,8 +1327,8 @@ function errorCB(err) {
 				//$bookingDetailsPage.find(".passengers-details-list").append(customersEleObj);
 		}
 		else {
-			$.mobile.changePage('#booking-details-page','slide');
-			navigator.notification.alert('Data retrieval fail.', alertConfirm, appName,'Ok');
+			//$.mobile.changePage('#booking-details-page','slide');
+			navigator.notification.alert('Please provide correct details.', alertConfirm, appName,'Ok');
 		}
 		hideModal();
 	}
@@ -1391,3 +1406,51 @@ function errorCB(err) {
 		$(".full-chairman-msg-para").show();
 		$(".full-chairman-msg-btn-div").hide();
 	}
+	
+	function dataTypeCheckJSON (someobj) {
+		var dataType="";
+		try {
+			if (typeof someobj != 'string'){
+				if(a.constructor.name === 'Array'){
+					dataType="Array";
+				}
+				else if(a.constructor.name === 'Object'){
+					dataType="Object";
+				}
+			}else if (typeof someobj == 'string'){
+				dataType="string";
+			}else{
+				dataType="other";
+			}
+		} catch (e) {
+			dataType="other";
+		}
+		return dataType;
+	}
+	
+	function registerAppId(){
+		var gcmregistrationIdTemp=window.localStorage["gcmregistrationId"];
+		
+		if( gcmregistrationIdTemp!=""){
+			var mData={};
+			mData["action"] = 'saveGCM';
+			mData["s_key"] = window.localStorage["s_key"];
+			mData["gcm"] = gcmregistrationIdTemp;
+			
+			getDataByUrlAndData(appUrl, mData, registerAppIdSuccessCB, commonAppErrorCB, ajaxCallPost);
+			return false;
+		}
+		else{
+			navigator.notification.alert('Error while updating app id, close app and restart.', alertConfirm, appName, 'Ok');
+		}
+	}
+	
+	function registerAppIdSuccessCB(data){
+		var responseJson = jQuery.parseJSON(data);
+		var ajaxStatus = responseJson["status"];		
+		
+		if(ajaxStatus == false){
+			window.localStorage["isgcmregistered"] = 1;
+		}
+	}
+	

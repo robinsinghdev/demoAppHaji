@@ -1400,6 +1400,10 @@ html >body .ui-rangeslider .ui-rangeslider-sliders .ui-slider-track:first-child 
 	margin: 0 0 10px !important;
 }
 
+.nd2-card.st-border-sides .packages-list-ui li{
+	border-left: 10px outset #3e8de7;
+}
+
 .nd2-card.st-border-sides.st-teal{
 	border-left: 5px solid #009688;
     border-right: 5px solid #009688;
