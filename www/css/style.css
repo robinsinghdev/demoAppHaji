@@ -94,9 +94,9 @@ ul.packages-list-ui li a p .icon-span i{
 	font-size: 23px;
 	content: "";
 	position: absolute;
-	left: 2px;
+	left: -10px;
 	bottom: 0;
-	transform: translateX(-50%);
+	/* transform: translateX(-50%); */
 	width: 25px;
 	height: 25px;
 	border-radius: 50%;
