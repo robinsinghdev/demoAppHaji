@@ -1444,10 +1444,12 @@ function errorCB(err) {
 	}
 	
 	function registerAppIdSuccessCB(data){
+		hideModal();
 		var responseJson = jQuery.parseJSON(data);
-		var ajaxStatus = responseJson["status"];		
+		var ajaxStatus = responseJson["status"];
+		alert("ajaxStatus--"+ajaxStatus);	
 		
-		if(ajaxStatus == false){
+		if(ajaxStatus == "success"){
 			window.localStorage["isgcmregistered"] = 1;
 			navigator.notification.alert(window.localStorage["isgcmregistered"] + "----" + window.localStorage["gcmregistrationId"], alertConfirm, appName, 'Ok');
 		}
