@@ -190,6 +190,7 @@ var app = {
 		
 		//checkPreAuth();
         // $("#loginForm").on("submit",showMyBookingInfo);
+		downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage");
     },
 };
 
@@ -302,8 +303,8 @@ function onBackKeyDown() {
 }
 
 function checkConnection() {
-	//connectionType="WiFi connection";//For Testing
-	//return connectionType;//For Testing
+	connectionType="WiFi connection";//For Testing
+	return connectionType;//For Testing
 
     var networkState = navigator.connection.type;
     var states = {};
@@ -1452,5 +1453,72 @@ function errorCB(err) {
 		if(ajaxStatus == "success"){
 			window.localStorage["isgcmregistered"] = 1;
 		}
+	}
+	
+	//First step check parameters mismatch and checking network connection if available call    download function
+	function downloadFileByUrlCheck(URL, Folder_Name, File_Name) {
+	//Parameters mismatch check
+	if (URL == null && Folder_Name == null && File_Name == null) {
+		return;
+	}
+	else {
+		//checking Internet connection availablity
+		connectionType=checkConnection();
+		if(connectionType=="No network connection"){
+			return;
+		} else {
+			downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
+		}
+	  }
+	}
+	
+	function downloadFileByUrl(URL, Folder_Name, File_Name) {
+		//step to request a file system 
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+
+		function fileSystemSuccess(fileSystem) {
+			var download_link = encodeURI(URL);
+			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
+
+			var directoryEntry = fileSystem.root; // to get root path of directory
+			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
+			var rootdir = fileSystem.root;
+			var stFullPath = rootdir.fullPath; // Returns Fulpath of local directory
+			// fullpath and name of the file which we want to give
+			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
+			// download function call
+			filetransferByDownloadLink(download_link, stFullPath);
+		}
+
+		function onDirectorySuccess(parent) {
+			// Directory created successfuly
+			alert("Create new directory Success: ");
+		}
+
+		function onDirectoryFail(error) {
+			//Error while creating directory
+			alert("Unable to create new directory: " + error.code);
+		}
+
+		function fileSystemFail(evt) {
+			//Unable to access file system
+			alert(evt.target.error.code);
+		 }
+	}
+	
+	function filetransferByDownloadLink(download_link, stFullPath) {
+		var fileTransfer = new FileTransfer();
+		// File download function with URL and local path
+		fileTransfer.download(download_link, stFullPath,
+				function (entry) {
+					alert("download complete: " + entry.fullPath);
+				},
+				function (error) {
+					//Download abort errors or download failed errors
+					alert("download error source " + error.source);
+					//alert("download error target " + error.target);
+					//alert("upload error code" + error.code);
+				}
+		);
 	}
 	
