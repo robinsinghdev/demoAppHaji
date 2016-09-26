@@ -190,6 +190,7 @@ var app = {
 		
 		//checkPreAuth();
         // $("#loginForm").on("submit",showMyBookingInfo);
+		downloadFileByUrlCheck("http://www.stavyah.com/images/stavyah-logo.png", "user_data", "myimage");
 		downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage");
     },
 };
