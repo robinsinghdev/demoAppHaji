@@ -1516,9 +1516,10 @@ function errorCB(err) {
 				},
 				function (error) {
 					//Download abort errors or download failed errors
+					alert("stFullPath-"+stFullPath);
 					alert("download error source " + error.source);
-					//alert("download error target " + error.target);
-					//alert("upload error code" + error.code);
+					alert("download error target " + error.target);
+					alert("upload error code" + error.code);
 				}
 		);
 	}
