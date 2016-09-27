@@ -1481,7 +1481,7 @@ function errorCB(err) {
 									alert("File successfully created!");
 								};
 								writer.write("Hello world!");
-							},
+							}),
 							function(evt, where) {
 								alert("Error writing file "+ where + " :");
 								alert(JSON.stringify(evt));
@@ -1492,6 +1492,8 @@ function errorCB(err) {
 							alert(JSON.stringify(evt));
 						}
 					);
+				}
+			)	
 			
 			downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
 			}
