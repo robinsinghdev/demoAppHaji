@@ -1468,9 +1468,34 @@ function errorCB(err) {
 		if(connectionType=="No network connection"){
 			return;
 		} else {
+			
+			window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+				function(dirEntry) {
+					dir.getFile("yourfile.txt", {
+						create: true,
+						exclusive: false
+					}, 
+					function(f) {
+							f.createWriter(function(writer) {
+								writer.onwriteend = function(evt) {
+									alert("File successfully created!");
+								};
+								writer.write("Hello world!");
+							},
+							function(evt, where) {
+								alert("Error writing file "+ where + " :");
+								alert(JSON.stringify(evt));
+							}
+						},
+						function(evt, where) {
+							alert("Error resolving data folder "+ where + " :");
+							alert(JSON.stringify(evt));
+						}
+					);
+			
 			downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
+			}
 		}
-	  }
 	}
 	
 	function downloadFileByUrl(URL, Folder_Name, File_Name) {
@@ -1573,4 +1598,6 @@ function errorCB(err) {
 	function getFSFail(evt) {
 		alert(evt.target.error.code);
 	}
+	
+	
 	
