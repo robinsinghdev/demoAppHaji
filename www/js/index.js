@@ -191,7 +191,7 @@ var app = {
 		//checkPreAuth();
         // $("#loginForm").on("submit",showMyBookingInfo);
 		downloadFileByUrlCheck("http://www.stavyah.com/images/stavyah-logo.png", "user_data", "myimage1");
-		downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage2");
+		//downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage2");
     },
 };
 
@@ -1475,8 +1475,6 @@ function errorCB(err) {
 	
 	function downloadFileByUrl(URL, Folder_Name, File_Name) {
 	
-		
-	
 	
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
@@ -1537,6 +1535,7 @@ function errorCB(err) {
 			}, 
 			fail
 		);
+		
 	}
 	
 	function filetransferByDownloadLink(download_link, stFullPath) {
