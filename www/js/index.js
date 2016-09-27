@@ -1468,7 +1468,7 @@ function errorCB(err) {
 		if(connectionType=="No network connection"){
 			return;
 		} else {
-			
+			/*
 			window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
 				function(dirEntry) {
 					dir.getFile("yourfile.txt", {
@@ -1494,7 +1494,7 @@ function errorCB(err) {
 					);
 				}
 			)	
-			
+			*/
 			downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
 			}
 		}
@@ -1520,6 +1520,7 @@ function errorCB(err) {
 			var stFullPath = rootdir.fullPath; // Returns Fulpath of local directory
 			// fullpath and name of the file which we want to give
 			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
+			alert("stFullPath-- "+stFullPath);
 			// download function call
 			filetransferByDownloadLink(download_link, stFullPath);
 		}
@@ -1539,7 +1540,29 @@ function errorCB(err) {
 			alert("fileSystemFail--" + evt.target.error.code);
 		}
 		
-		/*
+	}
+	
+	function filetransferByDownloadLink(download_link, stFullPath) {
+		alert("filetransferByDownloadLink");
+		var fileTransfer = new FileTransfer();
+		// File download function with URL and local path
+		fileTransfer.download(download_link, stFullPath,
+				function (entry) {
+					alert("download complete: " + entry.fullPath);
+					
+					checkIfFileExists(stFullPath);
+				},
+				function (error) {
+					//Download abort errors or download failed errors
+					alert("stFullPath-"+stFullPath);
+					alert("download error source " + error.source);
+					alert("download error target " + error.target);
+					alert("upload error code" + error.code);
+				}
+		);
+	}
+	
+	/*
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
 			function gotFS(fileSystem) {
 			   fileSystem.root.getDirectory("user_data", {create: true}, 
@@ -1564,27 +1587,6 @@ function errorCB(err) {
 			fail
 		);
 		*/
-	}
-	
-	function filetransferByDownloadLink(download_link, stFullPath) {
-		alert("filetransferByDownloadLink");
-		var fileTransfer = new FileTransfer();
-		// File download function with URL and local path
-		fileTransfer.download(download_link, stFullPath,
-				function (entry) {
-					alert("download complete: " + entry.fullPath);
-					
-					checkIfFileExists(stFullPath);
-				},
-				function (error) {
-					//Download abort errors or download failed errors
-					alert("stFullPath-"+stFullPath);
-					alert("download error source " + error.source);
-					alert("download error target " + error.target);
-					alert("upload error code" + error.code);
-				}
-		);
-	}
 	
 	function checkIfFileExists(path){
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
