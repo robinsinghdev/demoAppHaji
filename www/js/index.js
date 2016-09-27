@@ -1485,7 +1485,7 @@ function errorCB(err) {
 
 			var directoryEntry = cordova.file.dataDirectory; //fileSystem.root; // to get root path of directory
 			
-			alert(directoryEntry);
+			alert("directoryEntry-- " + directoryEntry);
 			
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			//var rootdir = fileSystem.root;
@@ -1504,14 +1504,15 @@ function errorCB(err) {
 
 		function onDirectoryFail(error) {
 			//Error while creating directory
-			alert("Unable to create new directory: " + error.code);
+			alert("Unable to create new directory:onDirectoryFail: " + error.code);
 		}
 
 		function fileSystemFail(evt) {
 			//Unable to access file system
-			alert(evt.target.error.code);
+			alert("fileSystemFail--" + evt.target.error.code);
 		}
 		
+		/*
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
 			function gotFS(fileSystem) {
 			   fileSystem.root.getDirectory("user_data", {create: true}, 
@@ -1535,15 +1536,18 @@ function errorCB(err) {
 			}, 
 			fail
 		);
-		
+		*/
 	}
 	
 	function filetransferByDownloadLink(download_link, stFullPath) {
+		alert("filetransferByDownloadLink");
 		var fileTransfer = new FileTransfer();
 		// File download function with URL and local path
 		fileTransfer.download(download_link, stFullPath,
 				function (entry) {
 					alert("download complete: " + entry.fullPath);
+					
+					checkIfFileExists(stFullPath);
 				},
 				function (error) {
 					//Download abort errors or download failed errors
@@ -1553,5 +1557,20 @@ function errorCB(err) {
 					alert("upload error code" + error.code);
 				}
 		);
+	}
+	
+	function checkIfFileExists(path){
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){
+			cordova.file.dataDirectory.getFile(path, { create: false }, fileExists, fileDoesNotExist);
+		}, getFSFail); //of requestFileSystem
+	}
+	function fileExists(fileEntry){
+		alert("File " + fileEntry.fullPath + " exists!");
+	}
+	function fileDoesNotExist(){
+		alert("file does not exist");
+	}
+	function getFSFail(evt) {
+		alert(evt.target.error.code);
 	}
 	
