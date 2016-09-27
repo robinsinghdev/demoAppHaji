@@ -1474,6 +1474,32 @@ function errorCB(err) {
 	}
 	
 	function downloadFileByUrl(URL, Folder_Name, File_Name) {
+	
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
+			function gotFS(fileSystem) {
+			   fileSystem.root.getDirectory("user_data", {create: true}, 
+					function fileSystemSuccess(fileSystem){
+						
+						fileSystem.getFile(File_Name+".png",{create: true,exclusive:false},
+							function gotFileEntry(fileEntry){
+								var path = fileEntry.fullPath.replace(File_Name+".png", "");
+								fileEntry.remove();
+								var fileTransfer = new FileTransfer();
+								
+								fileTransfer.download(URL, path+""+File_Name+".png",function(theFile){
+									alert("File Downloaded Successfully " + theFile.toURI());
+								},
+								function(error){
+									alert("File Transfer failed" + error.message);
+								});
+							},
+						fail);
+					});
+			}, 
+			fail
+		);
+	
+	
 		//step to request a file system 
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
 
@@ -1488,7 +1514,7 @@ function errorCB(err) {
 			// fullpath and name of the file which we want to give
 			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
 			// download function call
-			filetransferByDownloadLink(download_link, stFullPath);
+			//filetransferByDownloadLink(download_link, stFullPath);
 		}
 
 		function onDirectorySuccess(parent) {
