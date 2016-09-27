@@ -190,8 +190,8 @@ var app = {
 		
 		//checkPreAuth();
         // $("#loginForm").on("submit",showMyBookingInfo);
-		downloadFileByUrlCheck("http://www.stavyah.com/images/stavyah-logo.png", "user_data", "myimage");
-		downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage");
+		downloadFileByUrlCheck("http://www.stavyah.com/images/stavyah-logo.png", "user_data", "myimage1");
+		downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage2");
     },
 };
 
@@ -1475,6 +1475,41 @@ function errorCB(err) {
 	
 	function downloadFileByUrl(URL, Folder_Name, File_Name) {
 	
+		
+	
+	
+		//step to request a file system 
+		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+
+		function fileSystemSuccess(fileSystem) {
+			var download_link = encodeURI(URL);
+			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
+
+			var directoryEntry = fileSystem.root; // to get root path of directory
+			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
+			var rootdir = fileSystem.root;
+			var stFullPath = rootdir.fullPath; // Returns Fulpath of local directory
+			// fullpath and name of the file which we want to give
+			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
+			// download function call
+			filetransferByDownloadLink(download_link, stFullPath);
+		}
+
+		function onDirectorySuccess(parent) {
+			// Directory created successfuly
+			alert("Create new directory Success: ");
+		}
+
+		function onDirectoryFail(error) {
+			//Error while creating directory
+			alert("Unable to create new directory: " + error.code);
+		}
+
+		function fileSystemFail(evt) {
+			//Unable to access file system
+			alert(evt.target.error.code);
+		}
+		
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
 			function gotFS(fileSystem) {
 			   fileSystem.root.getDirectory("user_data", {create: true}, 
@@ -1498,39 +1533,6 @@ function errorCB(err) {
 			}, 
 			fail
 		);
-	
-	
-		//step to request a file system 
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
-
-		function fileSystemSuccess(fileSystem) {
-			var download_link = encodeURI(URL);
-			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
-
-			var directoryEntry = fileSystem.root; // to get root path of directory
-			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
-			var rootdir = fileSystem.root;
-			var stFullPath = rootdir.fullPath; // Returns Fulpath of local directory
-			// fullpath and name of the file which we want to give
-			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
-			// download function call
-			//filetransferByDownloadLink(download_link, stFullPath);
-		}
-
-		function onDirectorySuccess(parent) {
-			// Directory created successfuly
-			alert("Create new directory Success: ");
-		}
-
-		function onDirectoryFail(error) {
-			//Error while creating directory
-			alert("Unable to create new directory: " + error.code);
-		}
-
-		function fileSystemFail(evt) {
-			//Unable to access file system
-			alert(evt.target.error.code);
-		 }
 	}
 	
 	function filetransferByDownloadLink(download_link, stFullPath) {
