@@ -192,6 +192,9 @@ var app = {
         // $("#loginForm").on("submit",showMyBookingInfo);
 		downloadFileByUrlCheck("http://www.stavyah.com/images/stavyah-logo.png", "user_data", "myimage1");
 		//downloadFileByUrlCheck("http://119.81.82.114:8080/EditDemo/AdminLTE-master/img/avatar5.png", "user_data", "myimage2");
+		
+		downloadFileTester();
+		downloadFileTesterFiless();
     },
 };
 
@@ -1475,6 +1478,7 @@ function errorCB(err) {
 				window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
 					function(dir) {
 						console.log("got main dir",dir);
+						
 						dir.getFile("yourfile.txt", {
 							create: true,
 							exclusive: false
@@ -1484,10 +1488,7 @@ function errorCB(err) {
 									f.createWriter(
 										function(writer) {
 											writer.onwriteend = function(evt) {
-												alert("File successfully created!");
-												
-												var checkIfFileExists=	cordova.file.dataDirectory + "/" +  + "yourfile.txt"
-												checkIfFileExists(fileExistUrl);
+												alert("File successfully created!");												
 											};
 											writer.write("Hello world!");
 										}
@@ -1503,7 +1504,10 @@ function errorCB(err) {
 							}
 						);
 					}
-				)	
+				)
+					
+				var checkIfFileExists=	cordova.file.dataDirectory + "/" +  + "yourfile.txt"
+				checkIfFileExists(fileExistUrl);	
 				
 			
 			}
@@ -1514,7 +1518,9 @@ function errorCB(err) {
 	
 	
 		//step to request a file system 
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+		//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, fileSystemSuccess, fileSystemFail);
+		
+		window.resolveLocalFileSystemURL(cordova.file.dataDirectory, fileSystemSuccess, fileSystemFail);
 
 		function fileSystemSuccess(fileSystem) {
 			var download_link = encodeURI(URL);
@@ -1555,6 +1561,7 @@ function errorCB(err) {
 	function filetransferByDownloadLink(download_link, stFullPath) {
 		alert("filetransferByDownloadLink");
 		var fileTransfer = new FileTransfer();
+		
 		// File download function with URL and local path
 		fileTransfer.download(download_link, stFullPath,
 				function (entry) {
@@ -1570,7 +1577,68 @@ function errorCB(err) {
 					alert("upload error code" + error.code);
 				}
 		);
-	}
+	}	
+	
+	function downloadFileTester(){
+        window.requestFileSystem(
+                     LocalFileSystem.PERSISTENT, 0, 
+                     function onFileSystemSuccess(fileSystem) {
+                     fileSystem.root.getFile(
+                                 "myimage1.png", {create: true, exclusive: false}, 
+                                 function gotFileEntry(fileEntry){
+                                 var sPath = fileEntry.fullPath.replace("myimage1.png","");
+                                 var fileTransfer = new FileTransfer();
+                                 fileEntry.remove();
+ 
+                                 fileTransfer.download(
+                                           "http://www.stavyah.com/images/stavyah-logo.png",
+                                           sPath + "myimage2.png",
+                                           function(theFile) {
+                                           console.log("download complete: " + theFile.toURI());
+                                           showLink(theFile.toURI());
+                                           },
+                                           function(error) {
+                                           console.log("download error source " + error.source);
+                                           console.log("download error target " + error.target);
+                                           console.log("upload error code: " + error.code);
+                                           }
+                                           );
+                                 }, 
+                                 fail);
+                     }, 
+                     fail);
+ 
+    }
+	
+	function downloadFileTesterFiless(){
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, 
+                     function onFileSystemSuccess(fileSystem) {
+                     fileSystem.root.getFile(
+                                 "myimage1.png", {create: true, exclusive: false}, 
+                                 function gotFileEntry(fileEntry){
+                                 var sPath = fileEntry.fullPath.replace("myimage1.png","");
+                                 var fileTransfer = new FileTransfer();
+                                 fileEntry.remove();
+ 
+                                 fileTransfer.download(
+                                           "http://www.stavyah.com/images/stavyah-logo.png",
+                                           sPath + "myimage2.png",
+                                           function(theFile) {
+                                           console.log("download complete: " + theFile.toURI());
+                                           showLink(theFile.toURI());
+                                           },
+                                           function(error) {
+                                           console.log("download error source " + error.source);
+                                           console.log("download error target " + error.target);
+                                           console.log("upload error code: " + error.code);
+                                           }
+                                           );
+                                 }, 
+                                 fail);
+                     }, 
+                     fail);
+ 
+    }
 	
 	/*
 		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, 
