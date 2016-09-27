@@ -1473,25 +1473,29 @@ function errorCB(err) {
 			
 				
 				window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
-					function(dirEntry) {
+					function(dir) {
+						console.log("got main dir",dir);
 						dir.getFile("yourfile.txt", {
 							create: true,
 							exclusive: false
-						}, 
-						function(f) {
-								f.createWriter(function(writer) {
-									writer.onwriteend = function(evt) {
-										alert("File successfully created!");
-										
-										var checkIfFileExists=	cordova.file.dataDirectory + "/" +  + "yourfile.txt"
-										checkIfFileExists(fileExistUrl);
-									};
-									writer.write("Hello world!");
-								}),
-								function(evt, where) {
-									alert("Error writing file "+ where + " :");
-									alert(JSON.stringify(evt));
-								}
+							}, 
+							function(f) {
+								console.log("got the file", f);
+									f.createWriter(
+										function(writer) {
+											writer.onwriteend = function(evt) {
+												alert("File successfully created!");
+												
+												var checkIfFileExists=	cordova.file.dataDirectory + "/" +  + "yourfile.txt"
+												checkIfFileExists(fileExistUrl);
+											};
+											writer.write("Hello world!");
+										}
+									),
+									function(evt, where) {
+										alert("Error writing file "+ where + " :");
+										alert(JSON.stringify(evt));
+									}
 							},
 							function(evt, where) {
 								alert("Error resolving data folder "+ where + " :");
@@ -1522,7 +1526,7 @@ function errorCB(err) {
 			
 			directoryEntry.getDirectory(Folder_Name, { create: true, exclusive: false }, onDirectorySuccess, onDirectoryFail); // creating folder in sdcard
 			//var rootdir = fileSystem.root;
-			var rootdir = directoryEntry;			
+			var rootdir = fileSystem.root;			
 			var stFullPath = rootdir.fullPath; // Returns Fulpath of local directory
 			// fullpath and name of the file which we want to give
 			stFullPath = stFullPath + "/" + Folder_Name + "/" + File_Name + "." + ext; 
