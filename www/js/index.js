@@ -1458,44 +1458,50 @@ function errorCB(err) {
 	
 	//First step check parameters mismatch and checking network connection if available call    download function
 	function downloadFileByUrlCheck(URL, Folder_Name, File_Name) {
-	//Parameters mismatch check
-	if (URL == null && Folder_Name == null && File_Name == null) {
-		return;
-	}
-	else {
-		//checking Internet connection availablity
-		connectionType=checkConnection();
-		if(connectionType=="No network connection"){
+		//Parameters mismatch check
+		if (URL == null && Folder_Name == null && File_Name == null) {
 			return;
-		} else {
-			/*
-			window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
-				function(dirEntry) {
-					dir.getFile("yourfile.txt", {
-						create: true,
-						exclusive: false
-					}, 
-					function(f) {
-							f.createWriter(function(writer) {
-								writer.onwriteend = function(evt) {
-									alert("File successfully created!");
-								};
-								writer.write("Hello world!");
-							}),
+		}
+		else {
+			//checking Internet connection availablity
+			connectionType=checkConnection();
+			if(connectionType=="No network connection"){
+				return;
+			} else {
+				
+				downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
+			
+				
+				window.resolveLocalFileSystemURL(cordova.file.dataDirectory,
+					function(dirEntry) {
+						dir.getFile("yourfile.txt", {
+							create: true,
+							exclusive: false
+						}, 
+						function(f) {
+								f.createWriter(function(writer) {
+									writer.onwriteend = function(evt) {
+										alert("File successfully created!");
+										
+										var checkIfFileExists=	cordova.file.dataDirectory + "/" +  + "yourfile.txt"
+										checkIfFileExists(fileExistUrl);
+									};
+									writer.write("Hello world!");
+								}),
+								function(evt, where) {
+									alert("Error writing file "+ where + " :");
+									alert(JSON.stringify(evt));
+								}
+							},
 							function(evt, where) {
-								alert("Error writing file "+ where + " :");
+								alert("Error resolving data folder "+ where + " :");
 								alert(JSON.stringify(evt));
 							}
-						},
-						function(evt, where) {
-							alert("Error resolving data folder "+ where + " :");
-							alert(JSON.stringify(evt));
-						}
-					);
-				}
-			)	
-			*/
-			downloadFileByUrl(URL, Folder_Name, File_Name); //If available download function call
+						);
+					}
+				)	
+				
+			
 			}
 		}
 	}
@@ -1510,7 +1516,7 @@ function errorCB(err) {
 			var download_link = encodeURI(URL);
 			ext = download_link.substr(download_link.lastIndexOf('.') + 1); //Get extension of URL
 
-			var directoryEntry = cordova.file.dataDirectory; //fileSystem.root; // to get root path of directory
+			var directoryEntry = fileSystem.root; // to get root path of directory
 			
 			alert("directoryEntry-- " + directoryEntry);
 			
